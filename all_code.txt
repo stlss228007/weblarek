@@ -1,0 +1,5358 @@
+===== ./.gitignore =====
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+node_modules
+dist
+dist-ssr
+*.local
+.env
+
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+===== ./index.html =====
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#000000" />
+    <link rel="icon" href="/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+
+    <title>Vite + TS</title>
+  </head>
+  <body class="page">
+    <div class="page__wrapper">
+      <header class="header">
+        <div class="header__container">
+          <a class="header__logo" href="/">
+            <img class="header__logo-image" src="./src/images/logo.svg" alt="Web-Larek! logo" />
+          </a>
+          <button class="header__basket">
+            <span class="header__basket-counter">0</span>
+          </button>
+        </div>
+      </header>
+
+      <main class="gallery"></main>
+    </div>
+
+    <div class="modal" id="modal-container">
+      <div class="modal__container">
+        <button class="modal__close" aria-label="закрыть"></button>
+        <div class="modal__content">
+
+        </div>
+      </div>
+    </div>
+
+    <template id="success">
+      <div class="order-success">
+        <h2 class="order-success__title">Заказ оформлен</h2>
+        <p class="order-success__description">Списано 0 синапсов</p>
+        <button class="button order-success__close">За новыми покупками!</button>
+      </div>
+    </template>
+
+    <template id="card-catalog">
+      <button class="gallery__item card">
+        <span class="card__category card__category_soft">софт-скил</span>
+        <h2 class="card__title">+1 час в сутках</h2>
+        <img class="card__image" src="./src/images/Subtract.svg" alt="" />
+        <span class="card__price">750 синапсов</span>
+      </button>
+    </template>
+
+    <template id="card-preview">
+      <div class="card card_full">
+        <img class="card__image" src="./src/images/Subtract.svg" alt="" />
+        <div class="card__column">
+          <span class="card__category card__category_other">другое</span>
+          <h2 class="card__title">Бэкенд-антистресс</h2>
+          <p class="card__text">Если планируете решать задачи в тренажёре, берите два.</p>
+          <div class="card__row">
+            <button class="button card__button">В корзину</button>
+            <span class="card__price">1000 синапсов</span>
+          </div>
+        </div>
+      </div>
+    </template>
+
+    <template id="card-basket">
+      <li class="basket__item card card_compact">
+        <span class="basket__item-index">1</span>
+        <span class="card__title">Фреймворк куки судьбы</span>
+        <span class="card__price">2500 синапсов</span>
+        <button class="basket__item-delete card__button" aria-label="удалить"></button>
+      </li>
+    </template>
+
+    <template id="basket">
+      <div class="basket">
+        <h2 class="modal__title">Корзина</h2>
+        <ul class="basket__list">
+
+        </ul>
+        <div class="modal__actions">
+          <button class="button basket__button">Оформить</button>
+          <span class="basket__price">0 синапсов</span>
+        </div>
+      </div>
+    </template>
+
+    <template id="order">
+      <form class="form" name="order">
+        <div class="order">
+          <div class="order__field">
+            <h2 class="modal__title">Способ оплаты</h2>
+            <div class="order__buttons">
+              <button name="card" type="button" class="button button_alt">Онлайн</button>
+              <button name="cash" type="button" class="button button_alt">При получении</button>
+            </div>
+          </div>
+          <label class="order__field">
+            <span class="form__label modal__title">Адрес доставки</span>
+            <input name="address" class="form__input" type="text" placeholder="Введите адрес" />
+          </label>
+        </div>
+        <div class="modal__actions">
+          <button type="submit" disabled class="button order__button">Далее</button>
+          <span class="form__errors"></span>
+        </div>
+      </form>
+    </template>
+
+    <template id="contacts">
+      <form class="form" name="contacts">
+        <div class="order">
+          <label class="order__field">
+            <span class="form__label modal__title">Email</span>
+            <input name="email" class="form__input" type="text" placeholder="Введите Email" />
+          </label>
+          <label class="order__field">
+            <span class="form__label modal__title">Телефон</span>
+            <input name="phone" class="form__input" type="text" placeholder="+7 (" />
+          </label>
+        </div>
+        <div class="modal__actions">
+          <button type="submit" disabled class="button">Оплатить</button>
+          <span class="form__errors"></span>
+        </div>
+      </form>
+    </template>
+
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>
+===== ./package-lock.json =====
+{
+  "name": "weblarek",
+  "version": "0.0.0",
+  "lockfileVersion": 3,
+  "requires": true,
+  "packages": {
+    "": {
+      "name": "weblarek",
+      "version": "0.0.0",
+      "devDependencies": {
+        "sass-embedded": "^1.90.0",
+        "typescript": "~5.8.3",
+        "vite": "^7.1.0"
+      }
+    },
+    "node_modules/@bufbuild/protobuf": {
+      "version": "2.6.3",
+      "resolved": "https://registry.npmjs.org/@bufbuild/protobuf/-/protobuf-2.6.3.tgz",
+      "integrity": "sha512-w/gJKME9mYN7ZoUAmSMAWXk4hkVpxRKvEJCb3dV5g9wwWdxTJJ0ayOJAVcNxtdqaxDyFuC0uz4RSGVacJ030PQ==",
+      "dev": true,
+      "license": "(Apache-2.0 AND BSD-3-Clause)"
+    },
+    "node_modules/@esbuild/aix-ppc64": {
+      "version": "0.25.8",
+      "resolved": "https://registry.npmjs.org/@esbuild/aix-ppc64/-/aix-ppc64-0.25.8.tgz",
+      "integrity": "sha512-urAvrUedIqEiFR3FYSLTWQgLu5tb+m0qZw0NBEasUeo6wuqatkMDaRT+1uABiGXEu5vqgPd7FGE1BhsAIy9QVA==",
+      "cpu": [
+        "ppc64"
+      ],
+      "dev": true,
+      "license": "MIT",
+      "optional": true,
+      "os": [
+        "aix"
+      ],
+      "engines": {
+        "node": ">=18"
+      }
+    },
+    "node_modules/@esbuild/android-arm": {
+      "version": "0.25.8",
+      "resolved": "https://registry.npmjs.org/@esbuild/android-arm/-/android-arm-0.25.8.tgz",
+      "integrity": "sha512-RONsAvGCz5oWyePVnLdZY/HHwA++nxYWIX1atInlaW6SEkwq6XkP3+cb825EUcRs5Vss/lGh/2YxAb5xqc07Uw==",
+      "cpu": [
+        "arm"
+      ],
+      "dev": true,
+      "license": "MIT",
+      "optional": true,
+      "os": [
+        "android"
+      ],
+      "engines": {
+        "node": ">=18"
+      }
+    },
+    "node_modules/@esbuild/android-arm64": {
+      "version": "0.25.8",
+      "resolved": "https://registry.npmjs.org/@esbuild/android-arm64/-/android-arm64-0.25.8.tgz",
+      "integrity": "sha512-OD3p7LYzWpLhZEyATcTSJ67qB5D+20vbtr6vHlHWSQYhKtzUYrETuWThmzFpZtFsBIxRvhO07+UgVA9m0i/O1w==",
+      "cpu": [
+        "arm64"
+      ],
+      "dev": true,
+      "license": "MIT",
+      "optional": true,
+      "os": [
+        "android"
+      ],
+      "engines": {
+        "node": ">=18"
+      }
+    },
+    "node_modules/@esbuild/android-x64": {
+      "version": "0.25.8",
+      "resolved": "https://registry.npmjs.org/@esbuild/android-x64/-/android-x64-0.25.8.tgz",
+      "integrity": "sha512-yJAVPklM5+4+9dTeKwHOaA+LQkmrKFX96BM0A/2zQrbS6ENCmxc4OVoBs5dPkCCak2roAD+jKCdnmOqKszPkjA==",
+      "cpu": [
+        "x64"
+      ],
+      "dev": true,
+      "license": "MIT",
+      "optional": true,
+      "os": [
+        "android"
+      ],
+      "engines": {
+        "node": ">=18"
+      }
+    },
+    "node_modules/@esbuild/darwin-arm64": {
+      "version": "0.25.8",
+      "resolved": "https://registry.npmjs.org/@esbuild/darwin-arm64/-/darwin-arm64-0.25.8.tgz",
+      "integrity": "sha512-Jw0mxgIaYX6R8ODrdkLLPwBqHTtYHJSmzzd+QeytSugzQ0Vg4c5rDky5VgkoowbZQahCbsv1rT1KW72MPIkevw==",
+      "cpu": [
+        "arm64"
+      ],
+      "dev": true,
+      "license": "MIT",
+      "optional": true,
+      "os": [
+        "darwin"
+      ],
+      "engines": {
+        "node": ">=18"
+      }
+    },
+    "node_modules/@esbuild/darwin-x64": {
+      "version": "0.25.8",
+      "resolved": "https://registry.npmjs.org/@esbuild/darwin-x64/-/darwin-x64-0.25.8.tgz",
+      "integrity": "sha512-Vh2gLxxHnuoQ+GjPNvDSDRpoBCUzY4Pu0kBqMBDlK4fuWbKgGtmDIeEC081xi26PPjn+1tct+Bh8FjyLlw1Zlg==",
+      "cpu": [
+        "x64"
+      ],
+      "dev": true,
+      "license": "MIT",
+      "optional": true,
+      "os": [
+        "darwin"
+      ],
+      "engines": {
+        "node": ">=18"
+      }
+    },
+    "node_modules/@esbuild/freebsd-arm64": {
+      "version": "0.25.8",
+      "resolved": "https://registry.npmjs.org/@esbuild/freebsd-arm64/-/freebsd-arm64-0.25.8.tgz",
+      "integrity": "sha512-YPJ7hDQ9DnNe5vxOm6jaie9QsTwcKedPvizTVlqWG9GBSq+BuyWEDazlGaDTC5NGU4QJd666V0yqCBL2oWKPfA==",
+      "cpu": [
+        "arm64"
+      ],
+      "dev": true,
+      "license": "MIT",
+      "optional": true,
+      "os": [
+        "freebsd"
+      ],
+      "engines": {
+        "node": ">=18"
+      }
+    },
+    "node_modules/@esbuild/freebsd-x64": {
+      "version": "0.25.8",
+      "resolved": "https://registry.npmjs.org/@esbuild/freebsd-x64/-/freebsd-x64-0.25.8.tgz",
+      "integrity": "sha512-MmaEXxQRdXNFsRN/KcIimLnSJrk2r5H8v+WVafRWz5xdSVmWLoITZQXcgehI2ZE6gioE6HirAEToM/RvFBeuhw==",
+      "cpu": [
+        "x64"
+      ],
+      "dev": true,
+      "license": "MIT",
+      "optional": true,
+      "os": [
+        "freebsd"
+      ],
+      "engines": {
+        "node": ">=18"
+      }
+    },
+    "node_modules/@esbuild/linux-arm": {
+      "version": "0.25.8",
+      "resolved": "https://registry.npmjs.org/@esbuild/linux-arm/-/linux-arm-0.25.8.tgz",
+      "integrity": "sha512-FuzEP9BixzZohl1kLf76KEVOsxtIBFwCaLupVuk4eFVnOZfU+Wsn+x5Ryam7nILV2pkq2TqQM9EZPsOBuMC+kg==",
+      "cpu": [
+        "arm"
+      ],
+      "dev": true,
+      "license": "MIT",
+      "optional": true,
+      "os": [
+        "linux"
+      ],
+      "engines": {
+        "node": ">=18"
+      }
+    },
+    "node_modules/@esbuild/linux-arm64": {
+      "version": "0.25.8",
+      "resolved": "https://registry.npmjs.org/@esbuild/linux-arm64/-/linux-arm64-0.25.8.tgz",
+      "integrity": "sha512-WIgg00ARWv/uYLU7lsuDK00d/hHSfES5BzdWAdAig1ioV5kaFNrtK8EqGcUBJhYqotlUByUKz5Qo6u8tt7iD/w==",
+      "cpu": [
+        "arm64"
+      ],
+      "dev": true,
+      "license": "MIT",
+      "optional": true,
+      "os": [
+        "linux"
+      ],
+      "engines": {
+        "node": ">=18"
+      }
+    },
+    "node_modules/@esbuild/linux-ia32": {
+      "version": "0.25.8",
+      "resolved": "https://registry.npmjs.org/@esbuild/linux-ia32/-/linux-ia32-0.25.8.tgz",
+      "integrity": "sha512-A1D9YzRX1i+1AJZuFFUMP1E9fMaYY+GnSQil9Tlw05utlE86EKTUA7RjwHDkEitmLYiFsRd9HwKBPEftNdBfjg==",
+      "cpu": [
+        "ia32"
+      ],
+      "dev": true,
+      "license": "MIT",
+      "optional": true,
+      "os": [
+        "linux"
+      ],
+      "engines": {
+        "node": ">=18"
+      }
+    },
+    "node_modules/@esbuild/linux-loong64": {
+      "version": "0.25.8",
+      "resolved": "https://registry.npmjs.org/@esbuild/linux-loong64/-/linux-loong64-0.25.8.tgz",
+      "integrity": "sha512-O7k1J/dwHkY1RMVvglFHl1HzutGEFFZ3kNiDMSOyUrB7WcoHGf96Sh+64nTRT26l3GMbCW01Ekh/ThKM5iI7hQ==",
+      "cpu": [
+        "loong64"
+      ],
+      "dev": true,
+      "license": "MIT",
+      "optional": true,
+      "os": [
+        "linux"
+      ],
+      "engines": {
+        "node": ">=18"
+      }
+    },
+    "node_modules/@esbuild/linux-mips64el": {
+      "version": "0.25.8",
+      "resolved": "https://registry.npmjs.org/@esbuild/linux-mips64el/-/linux-mips64el-0.25.8.tgz",
+      "integrity": "sha512-uv+dqfRazte3BzfMp8PAQXmdGHQt2oC/y2ovwpTteqrMx2lwaksiFZ/bdkXJC19ttTvNXBuWH53zy/aTj1FgGw==",
+      "cpu": [
+        "mips64el"
+      ],
+      "dev": true,
+      "license": "MIT",
+      "optional": true,
+      "os": [
+        "linux"
+      ],
+      "engines": {
+        "node": ">=18"
+      }
+    },
+    "node_modules/@esbuild/linux-ppc64": {
+      "version": "0.25.8",
+      "resolved": "https://registry.npmjs.org/@esbuild/linux-ppc64/-/linux-ppc64-0.25.8.tgz",
+      "integrity": "sha512-GyG0KcMi1GBavP5JgAkkstMGyMholMDybAf8wF5A70CALlDM2p/f7YFE7H92eDeH/VBtFJA5MT4nRPDGg4JuzQ==",
+      "cpu": [
+        "ppc64"
+      ],
+      "dev": true,
+      "license": "MIT",
+      "optional": true,
+      "os": [
+        "linux"
+      ],
+      "engines": {
+        "node": ">=18"
+      }
+    },
+    "node_modules/@esbuild/linux-riscv64": {
+      "version": "0.25.8",
+      "resolved": "https://registry.npmjs.org/@esbuild/linux-riscv64/-/linux-riscv64-0.25.8.tgz",
+      "integrity": "sha512-rAqDYFv3yzMrq7GIcen3XP7TUEG/4LK86LUPMIz6RT8A6pRIDn0sDcvjudVZBiiTcZCY9y2SgYX2lgK3AF+1eg==",
+      "cpu": [
+        "riscv64"
+      ],
+      "dev": true,
+      "license": "MIT",
+      "optional": true,
+      "os": [
+        "linux"
+      ],
+      "engines": {
+        "node": ">=18"
+      }
+    },
+    "node_modules/@esbuild/linux-s390x": {
+      "version": "0.25.8",
+      "resolved": "https://registry.npmjs.org/@esbuild/linux-s390x/-/linux-s390x-0.25.8.tgz",
+      "integrity": "sha512-Xutvh6VjlbcHpsIIbwY8GVRbwoviWT19tFhgdA7DlenLGC/mbc3lBoVb7jxj9Z+eyGqvcnSyIltYUrkKzWqSvg==",
+      "cpu": [
+        "s390x"
+      ],
+      "dev": true,
+      "license": "MIT",
+      "optional": true,
+      "os": [
+        "linux"
+      ],
+      "engines": {
+        "node": ">=18"
+      }
+    },
+    "node_modules/@esbuild/linux-x64": {
+      "version": "0.25.8",
+      "resolved": "https://registry.npmjs.org/@esbuild/linux-x64/-/linux-x64-0.25.8.tgz",
+      "integrity": "sha512-ASFQhgY4ElXh3nDcOMTkQero4b1lgubskNlhIfJrsH5OKZXDpUAKBlNS0Kx81jwOBp+HCeZqmoJuihTv57/jvQ==",
+      "cpu": [
+        "x64"
+      ],
+      "dev": true,
+      "license": "MIT",
+      "optional": true,
+      "os": [
+        "linux"
+      ],
+      "engines": {
+        "node": ">=18"
+      }
+    },
+    "node_modules/@esbuild/netbsd-arm64": {
+      "version": "0.25.8",
+      "resolved": "https://registry.npmjs.org/@esbuild/netbsd-arm64/-/netbsd-arm64-0.25.8.tgz",
+      "integrity": "sha512-d1KfruIeohqAi6SA+gENMuObDbEjn22olAR7egqnkCD9DGBG0wsEARotkLgXDu6c4ncgWTZJtN5vcgxzWRMzcw==",
+      "cpu": [
+        "arm64"
+      ],
+      "dev": true,
+      "license": "MIT",
+      "optional": true,
+      "os": [
+        "netbsd"
+      ],
+      "engines": {
+        "node": ">=18"
+      }
+    },
+    "node_modules/@esbuild/netbsd-x64": {
+      "version": "0.25.8",
+      "resolved": "https://registry.npmjs.org/@esbuild/netbsd-x64/-/netbsd-x64-0.25.8.tgz",
+      "integrity": "sha512-nVDCkrvx2ua+XQNyfrujIG38+YGyuy2Ru9kKVNyh5jAys6n+l44tTtToqHjino2My8VAY6Lw9H7RI73XFi66Cg==",
+      "cpu": [
+        "x64"
+      ],
+      "dev": true,
+      "license": "MIT",
+      "optional": true,
+      "os": [
+        "netbsd"
+      ],
+      "engines": {
+        "node": ">=18"
+      }
+    },
+    "node_modules/@esbuild/openbsd-arm64": {
+      "version": "0.25.8",
+      "resolved": "https://registry.npmjs.org/@esbuild/openbsd-arm64/-/openbsd-arm64-0.25.8.tgz",
+      "integrity": "sha512-j8HgrDuSJFAujkivSMSfPQSAa5Fxbvk4rgNAS5i3K+r8s1X0p1uOO2Hl2xNsGFppOeHOLAVgYwDVlmxhq5h+SQ==",
+      "cpu": [
+        "arm64"
+      ],
+      "dev": true,
+      "license": "MIT",
+      "optional": true,
+      "os": [
+        "openbsd"
+      ],
+      "engines": {
+        "node": ">=18"
+      }
+    },
+    "node_modules/@esbuild/openbsd-x64": {
+      "version": "0.25.8",
+      "resolved": "https://registry.npmjs.org/@esbuild/openbsd-x64/-/openbsd-x64-0.25.8.tgz",
+      "integrity": "sha512-1h8MUAwa0VhNCDp6Af0HToI2TJFAn1uqT9Al6DJVzdIBAd21m/G0Yfc77KDM3uF3T/YaOgQq3qTJHPbTOInaIQ==",
+      "cpu": [
+        "x64"
+      ],
+      "dev": true,
+      "license": "MIT",
+      "optional": true,
+      "os": [
+        "openbsd"
+      ],
+      "engines": {
+        "node": ">=18"
+      }
+    },
+    "node_modules/@esbuild/openharmony-arm64": {
+      "version": "0.25.8",
+      "resolved": "https://registry.npmjs.org/@esbuild/openharmony-arm64/-/openharmony-arm64-0.25.8.tgz",
+      "integrity": "sha512-r2nVa5SIK9tSWd0kJd9HCffnDHKchTGikb//9c7HX+r+wHYCpQrSgxhlY6KWV1nFo1l4KFbsMlHk+L6fekLsUg==",
+      "cpu": [
+        "arm64"
+      ],
+      "dev": true,
+      "license": "MIT",
+      "optional": true,
+      "os": [
+        "openharmony"
+      ],
+      "engines": {
+        "node": ">=18"
+      }
+    },
+    "node_modules/@esbuild/sunos-x64": {
+      "version": "0.25.8",
+      "resolved": "https://registry.npmjs.org/@esbuild/sunos-x64/-/sunos-x64-0.25.8.tgz",
+      "integrity": "sha512-zUlaP2S12YhQ2UzUfcCuMDHQFJyKABkAjvO5YSndMiIkMimPmxA+BYSBikWgsRpvyxuRnow4nS5NPnf9fpv41w==",
+      "cpu": [
+        "x64"
+      ],
+      "dev": true,
+      "license": "MIT",
+      "optional": true,
+      "os": [
+        "sunos"
+      ],
+      "engines": {
+        "node": ">=18"
+      }
+    },
+    "node_modules/@esbuild/win32-arm64": {
+      "version": "0.25.8",
+      "resolved": "https://registry.npmjs.org/@esbuild/win32-arm64/-/win32-arm64-0.25.8.tgz",
+      "integrity": "sha512-YEGFFWESlPva8hGL+zvj2z/SaK+pH0SwOM0Nc/d+rVnW7GSTFlLBGzZkuSU9kFIGIo8q9X3ucpZhu8PDN5A2sQ==",
+      "cpu": [
+        "arm64"
+      ],
+      "dev": true,
+      "license": "MIT",
+      "optional": true,
+      "os": [
+        "win32"
+      ],
+      "engines": {
+        "node": ">=18"
+      }
+    },
+    "node_modules/@esbuild/win32-ia32": {
+      "version": "0.25.8",
+      "resolved": "https://registry.npmjs.org/@esbuild/win32-ia32/-/win32-ia32-0.25.8.tgz",
+      "integrity": "sha512-hiGgGC6KZ5LZz58OL/+qVVoZiuZlUYlYHNAmczOm7bs2oE1XriPFi5ZHHrS8ACpV5EjySrnoCKmcbQMN+ojnHg==",
+      "cpu": [
+        "ia32"
+      ],
+      "dev": true,
+      "license": "MIT",
+      "optional": true,
+      "os": [
+        "win32"
+      ],
+      "engines": {
+        "node": ">=18"
+      }
+    },
+    "node_modules/@esbuild/win32-x64": {
+      "version": "0.25.8",
+      "resolved": "https://registry.npmjs.org/@esbuild/win32-x64/-/win32-x64-0.25.8.tgz",
+      "integrity": "sha512-cn3Yr7+OaaZq1c+2pe+8yxC8E144SReCQjN6/2ynubzYjvyqZjTXfQJpAcQpsdJq3My7XADANiYGHoFC69pLQw==",
+      "cpu": [
+        "x64"
+      ],
+      "dev": true,
+      "license": "MIT",
+      "optional": true,
+      "os": [
+        "win32"
+      ],
+      "engines": {
+        "node": ">=18"
+      }
+    },
+    "node_modules/@parcel/watcher": {
+      "version": "2.5.1",
+      "resolved": "https://registry.npmjs.org/@parcel/watcher/-/watcher-2.5.1.tgz",
+      "integrity": "sha512-dfUnCxiN9H4ap84DvD2ubjw+3vUNpstxa0TneY/Paat8a3R4uQZDLSvWjmznAY/DoahqTHl9V46HF/Zs3F29pg==",
+      "dev": true,
+      "hasInstallScript": true,
+      "license": "MIT",
+      "optional": true,
+      "dependencies": {
+        "detect-libc": "^1.0.3",
+        "is-glob": "^4.0.3",
+        "micromatch": "^4.0.5",
+        "node-addon-api": "^7.0.0"
+      },
+      "engines": {
+        "node": ">= 10.0.0"
+      },
+      "funding": {
+        "type": "opencollective",
+        "url": "https://opencollective.com/parcel"
+      },
+      "optionalDependencies": {
+        "@parcel/watcher-android-arm64": "2.5.1",
+        "@parcel/watcher-darwin-arm64": "2.5.1",
+        "@parcel/watcher-darwin-x64": "2.5.1",
+        "@parcel/watcher-freebsd-x64": "2.5.1",
+        "@parcel/watcher-linux-arm-glibc": "2.5.1",
+        "@parcel/watcher-linux-arm-musl": "2.5.1",
+        "@parcel/watcher-linux-arm64-glibc": "2.5.1",
+        "@parcel/watcher-linux-arm64-musl": "2.5.1",
+        "@parcel/watcher-linux-x64-glibc": "2.5.1",
+        "@parcel/watcher-linux-x64-musl": "2.5.1",
+        "@parcel/watcher-win32-arm64": "2.5.1",
+        "@parcel/watcher-win32-ia32": "2.5.1",
+        "@parcel/watcher-win32-x64": "2.5.1"
+      }
+    },
+    "node_modules/@parcel/watcher-android-arm64": {
+      "version": "2.5.1",
+      "resolved": "https://registry.npmjs.org/@parcel/watcher-android-arm64/-/watcher-android-arm64-2.5.1.tgz",
+      "integrity": "sha512-KF8+j9nNbUN8vzOFDpRMsaKBHZ/mcjEjMToVMJOhTozkDonQFFrRcfdLWn6yWKCmJKmdVxSgHiYvTCef4/qcBA==",
+      "cpu": [
+        "arm64"
+      ],
+      "dev": true,
+      "license": "MIT",
+      "optional": true,
+      "os": [
+        "android"
+      ],
+      "engines": {
+        "node": ">= 10.0.0"
+      },
+      "funding": {
+        "type": "opencollective",
+        "url": "https://opencollective.com/parcel"
+      }
+    },
+    "node_modules/@parcel/watcher-darwin-arm64": {
+      "version": "2.5.1",
+      "resolved": "https://registry.npmjs.org/@parcel/watcher-darwin-arm64/-/watcher-darwin-arm64-2.5.1.tgz",
+      "integrity": "sha512-eAzPv5osDmZyBhou8PoF4i6RQXAfeKL9tjb3QzYuccXFMQU0ruIc/POh30ePnaOyD1UXdlKguHBmsTs53tVoPw==",
+      "cpu": [
+        "arm64"
+      ],
+      "dev": true,
+      "license": "MIT",
+      "optional": true,
+      "os": [
+        "darwin"
+      ],
+      "engines": {
+        "node": ">= 10.0.0"
+      },
+      "funding": {
+        "type": "opencollective",
+        "url": "https://opencollective.com/parcel"
+      }
+    },
+    "node_modules/@parcel/watcher-darwin-x64": {
+      "version": "2.5.1",
+      "resolved": "https://registry.npmjs.org/@parcel/watcher-darwin-x64/-/watcher-darwin-x64-2.5.1.tgz",
+      "integrity": "sha512-1ZXDthrnNmwv10A0/3AJNZ9JGlzrF82i3gNQcWOzd7nJ8aj+ILyW1MTxVk35Db0u91oD5Nlk9MBiujMlwmeXZg==",
+      "cpu": [
+        "x64"
+      ],
+      "dev": true,
+      "license": "MIT",
+      "optional": true,
+      "os": [
+        "darwin"
+      ],
+      "engines": {
+        "node": ">= 10.0.0"
+      },
+      "funding": {
+        "type": "opencollective",
+        "url": "https://opencollective.com/parcel"
+      }
+    },
+    "node_modules/@parcel/watcher-freebsd-x64": {
+      "version": "2.5.1",
+      "resolved": "https://registry.npmjs.org/@parcel/watcher-freebsd-x64/-/watcher-freebsd-x64-2.5.1.tgz",
+      "integrity": "sha512-SI4eljM7Flp9yPuKi8W0ird8TI/JK6CSxju3NojVI6BjHsTyK7zxA9urjVjEKJ5MBYC+bLmMcbAWlZ+rFkLpJQ==",
+      "cpu": [
+        "x64"
+      ],
+      "dev": true,
+      "license": "MIT",
+      "optional": true,
+      "os": [
+        "freebsd"
+      ],
+      "engines": {
+        "node": ">= 10.0.0"
+      },
+      "funding": {
+        "type": "opencollective",
+        "url": "https://opencollective.com/parcel"
+      }
+    },
+    "node_modules/@parcel/watcher-linux-arm-glibc": {
+      "version": "2.5.1",
+      "resolved": "https://registry.npmjs.org/@parcel/watcher-linux-arm-glibc/-/watcher-linux-arm-glibc-2.5.1.tgz",
+      "integrity": "sha512-RCdZlEyTs8geyBkkcnPWvtXLY44BCeZKmGYRtSgtwwnHR4dxfHRG3gR99XdMEdQ7KeiDdasJwwvNSF5jKtDwdA==",
+      "cpu": [
+        "arm"
+      ],
+      "dev": true,
+      "license": "MIT",
+      "optional": true,
+      "os": [
+        "linux"
+      ],
+      "engines": {
+        "node": ">= 10.0.0"
+      },
+      "funding": {
+        "type": "opencollective",
+        "url": "https://opencollective.com/parcel"
+      }
+    },
+    "node_modules/@parcel/watcher-linux-arm-musl": {
+      "version": "2.5.1",
+      "resolved": "https://registry.npmjs.org/@parcel/watcher-linux-arm-musl/-/watcher-linux-arm-musl-2.5.1.tgz",
+      "integrity": "sha512-6E+m/Mm1t1yhB8X412stiKFG3XykmgdIOqhjWj+VL8oHkKABfu/gjFj8DvLrYVHSBNC+/u5PeNrujiSQ1zwd1Q==",
+      "cpu": [
+        "arm"
+      ],
+      "dev": true,
+      "license": "MIT",
+      "optional": true,
+      "os": [
+        "linux"
+      ],
+      "engines": {
+        "node": ">= 10.0.0"
+      },
+      "funding": {
+        "type": "opencollective",
+        "url": "https://opencollective.com/parcel"
+      }
+    },
+    "node_modules/@parcel/watcher-linux-arm64-glibc": {
+      "version": "2.5.1",
+      "resolved": "https://registry.npmjs.org/@parcel/watcher-linux-arm64-glibc/-/watcher-linux-arm64-glibc-2.5.1.tgz",
+      "integrity": "sha512-LrGp+f02yU3BN9A+DGuY3v3bmnFUggAITBGriZHUREfNEzZh/GO06FF5u2kx8x+GBEUYfyTGamol4j3m9ANe8w==",
+      "cpu": [
+        "arm64"
+      ],
+      "dev": true,
+      "license": "MIT",
+      "optional": true,
+      "os": [
+        "linux"
+      ],
+      "engines": {
+        "node": ">= 10.0.0"
+      },
+      "funding": {
+        "type": "opencollective",
+        "url": "https://opencollective.com/parcel"
+      }
+    },
+    "node_modules/@parcel/watcher-linux-arm64-musl": {
+      "version": "2.5.1",
+      "resolved": "https://registry.npmjs.org/@parcel/watcher-linux-arm64-musl/-/watcher-linux-arm64-musl-2.5.1.tgz",
+      "integrity": "sha512-cFOjABi92pMYRXS7AcQv9/M1YuKRw8SZniCDw0ssQb/noPkRzA+HBDkwmyOJYp5wXcsTrhxO0zq1U11cK9jsFg==",
+      "cpu": [
+        "arm64"
+      ],
+      "dev": true,
+      "license": "MIT",
+      "optional": true,
+      "os": [
+        "linux"
+      ],
+      "engines": {
+        "node": ">= 10.0.0"
+      },
+      "funding": {
+        "type": "opencollective",
+        "url": "https://opencollective.com/parcel"
+      }
+    },
+    "node_modules/@parcel/watcher-linux-x64-glibc": {
+      "version": "2.5.1",
+      "resolved": "https://registry.npmjs.org/@parcel/watcher-linux-x64-glibc/-/watcher-linux-x64-glibc-2.5.1.tgz",
+      "integrity": "sha512-GcESn8NZySmfwlTsIur+49yDqSny2IhPeZfXunQi48DMugKeZ7uy1FX83pO0X22sHntJ4Ub+9k34XQCX+oHt2A==",
+      "cpu": [
+        "x64"
+      ],
+      "dev": true,
+      "license": "MIT",
+      "optional": true,
+      "os": [
+        "linux"
+      ],
+      "engines": {
+        "node": ">= 10.0.0"
+      },
+      "funding": {
+        "type": "opencollective",
+        "url": "https://opencollective.com/parcel"
+      }
+    },
+    "node_modules/@parcel/watcher-linux-x64-musl": {
+      "version": "2.5.1",
+      "resolved": "https://registry.npmjs.org/@parcel/watcher-linux-x64-musl/-/watcher-linux-x64-musl-2.5.1.tgz",
+      "integrity": "sha512-n0E2EQbatQ3bXhcH2D1XIAANAcTZkQICBPVaxMeaCVBtOpBZpWJuf7LwyWPSBDITb7In8mqQgJ7gH8CILCURXg==",
+      "cpu": [
+        "x64"
+      ],
+      "dev": true,
+      "license": "MIT",
+      "optional": true,
+      "os": [
+        "linux"
+      ],
+      "engines": {
+        "node": ">= 10.0.0"
+      },
+      "funding": {
+        "type": "opencollective",
+        "url": "https://opencollective.com/parcel"
+      }
+    },
+    "node_modules/@parcel/watcher-win32-arm64": {
+      "version": "2.5.1",
+      "resolved": "https://registry.npmjs.org/@parcel/watcher-win32-arm64/-/watcher-win32-arm64-2.5.1.tgz",
+      "integrity": "sha512-RFzklRvmc3PkjKjry3hLF9wD7ppR4AKcWNzH7kXR7GUe0Igb3Nz8fyPwtZCSquGrhU5HhUNDr/mKBqj7tqA2Vw==",
+      "cpu": [
+        "arm64"
+      ],
+      "dev": true,
+      "license": "MIT",
+      "optional": true,
+      "os": [
+        "win32"
+      ],
+      "engines": {
+        "node": ">= 10.0.0"
+      },
+      "funding": {
+        "type": "opencollective",
+        "url": "https://opencollective.com/parcel"
+      }
+    },
+    "node_modules/@parcel/watcher-win32-ia32": {
+      "version": "2.5.1",
+      "resolved": "https://registry.npmjs.org/@parcel/watcher-win32-ia32/-/watcher-win32-ia32-2.5.1.tgz",
+      "integrity": "sha512-c2KkcVN+NJmuA7CGlaGD1qJh1cLfDnQsHjE89E60vUEMlqduHGCdCLJCID5geFVM0dOtA3ZiIO8BoEQmzQVfpQ==",
+      "cpu": [
+        "ia32"
+      ],
+      "dev": true,
+      "license": "MIT",
+      "optional": true,
+      "os": [
+        "win32"
+      ],
+      "engines": {
+        "node": ">= 10.0.0"
+      },
+      "funding": {
+        "type": "opencollective",
+        "url": "https://opencollective.com/parcel"
+      }
+    },
+    "node_modules/@parcel/watcher-win32-x64": {
+      "version": "2.5.1",
+      "resolved": "https://registry.npmjs.org/@parcel/watcher-win32-x64/-/watcher-win32-x64-2.5.1.tgz",
+      "integrity": "sha512-9lHBdJITeNR++EvSQVUcaZoWupyHfXe1jZvGZ06O/5MflPcuPLtEphScIBL+AiCWBO46tDSHzWyD0uDmmZqsgA==",
+      "cpu": [
+        "x64"
+      ],
+      "dev": true,
+      "license": "MIT",
+      "optional": true,
+      "os": [
+        "win32"
+      ],
+      "engines": {
+        "node": ">= 10.0.0"
+      },
+      "funding": {
+        "type": "opencollective",
+        "url": "https://opencollective.com/parcel"
+      }
+    },
+    "node_modules/@rollup/rollup-android-arm-eabi": {
+      "version": "4.46.2",
+      "resolved": "https://registry.npmjs.org/@rollup/rollup-android-arm-eabi/-/rollup-android-arm-eabi-4.46.2.tgz",
+      "integrity": "sha512-Zj3Hl6sN34xJtMv7Anwb5Gu01yujyE/cLBDB2gnHTAHaWS1Z38L7kuSG+oAh0giZMqG060f/YBStXtMH6FvPMA==",
+      "cpu": [
+        "arm"
+      ],
+      "dev": true,
+      "license": "MIT",
+      "optional": true,
+      "os": [
+        "android"
+      ]
+    },
+    "node_modules/@rollup/rollup-android-arm64": {
+      "version": "4.46.2",
+      "resolved": "https://registry.npmjs.org/@rollup/rollup-android-arm64/-/rollup-android-arm64-4.46.2.tgz",
+      "integrity": "sha512-nTeCWY83kN64oQ5MGz3CgtPx8NSOhC5lWtsjTs+8JAJNLcP3QbLCtDDgUKQc/Ro/frpMq4SHUaHN6AMltcEoLQ==",
+      "cpu": [
+        "arm64"
+      ],
+      "dev": true,
+      "license": "MIT",
+      "optional": true,
+      "os": [
+        "android"
+      ]
+    },
+    "node_modules/@rollup/rollup-darwin-arm64": {
+      "version": "4.46.2",
+      "resolved": "https://registry.npmjs.org/@rollup/rollup-darwin-arm64/-/rollup-darwin-arm64-4.46.2.tgz",
+      "integrity": "sha512-HV7bW2Fb/F5KPdM/9bApunQh68YVDU8sO8BvcW9OngQVN3HHHkw99wFupuUJfGR9pYLLAjcAOA6iO+evsbBaPQ==",
+      "cpu": [
+        "arm64"
+      ],
+      "dev": true,
+      "license": "MIT",
+      "optional": true,
+      "os": [
+        "darwin"
+      ]
+    },
+    "node_modules/@rollup/rollup-darwin-x64": {
+      "version": "4.46.2",
+      "resolved": "https://registry.npmjs.org/@rollup/rollup-darwin-x64/-/rollup-darwin-x64-4.46.2.tgz",
+      "integrity": "sha512-SSj8TlYV5nJixSsm/y3QXfhspSiLYP11zpfwp6G/YDXctf3Xkdnk4woJIF5VQe0of2OjzTt8EsxnJDCdHd2xMA==",
+      "cpu": [
+        "x64"
+      ],
+      "dev": true,
+      "license": "MIT",
+      "optional": true,
+      "os": [
+        "darwin"
+      ]
+    },
+    "node_modules/@rollup/rollup-freebsd-arm64": {
+      "version": "4.46.2",
+      "resolved": "https://registry.npmjs.org/@rollup/rollup-freebsd-arm64/-/rollup-freebsd-arm64-4.46.2.tgz",
+      "integrity": "sha512-ZyrsG4TIT9xnOlLsSSi9w/X29tCbK1yegE49RYm3tu3wF1L/B6LVMqnEWyDB26d9Ecx9zrmXCiPmIabVuLmNSg==",
+      "cpu": [
+        "arm64"
+      ],
+      "dev": true,
+      "license": "MIT",
+      "optional": true,
+      "os": [
+        "freebsd"
+      ]
+    },
+    "node_modules/@rollup/rollup-freebsd-x64": {
+      "version": "4.46.2",
+      "resolved": "https://registry.npmjs.org/@rollup/rollup-freebsd-x64/-/rollup-freebsd-x64-4.46.2.tgz",
+      "integrity": "sha512-pCgHFoOECwVCJ5GFq8+gR8SBKnMO+xe5UEqbemxBpCKYQddRQMgomv1104RnLSg7nNvgKy05sLsY51+OVRyiVw==",
+      "cpu": [
+        "x64"
+      ],
+      "dev": true,
+      "license": "MIT",
+      "optional": true,
+      "os": [
+        "freebsd"
+      ]
+    },
+    "node_modules/@rollup/rollup-linux-arm-gnueabihf": {
+      "version": "4.46.2",
+      "resolved": "https://registry.npmjs.org/@rollup/rollup-linux-arm-gnueabihf/-/rollup-linux-arm-gnueabihf-4.46.2.tgz",
+      "integrity": "sha512-EtP8aquZ0xQg0ETFcxUbU71MZlHaw9MChwrQzatiE8U/bvi5uv/oChExXC4mWhjiqK7azGJBqU0tt5H123SzVA==",
+      "cpu": [
+        "arm"
+      ],
+      "dev": true,
+      "license": "MIT",
+      "optional": true,
+      "os": [
+        "linux"
+      ]
+    },
+    "node_modules/@rollup/rollup-linux-arm-musleabihf": {
+      "version": "4.46.2",
+      "resolved": "https://registry.npmjs.org/@rollup/rollup-linux-arm-musleabihf/-/rollup-linux-arm-musleabihf-4.46.2.tgz",
+      "integrity": "sha512-qO7F7U3u1nfxYRPM8HqFtLd+raev2K137dsV08q/LRKRLEc7RsiDWihUnrINdsWQxPR9jqZ8DIIZ1zJJAm5PjQ==",
+      "cpu": [
+        "arm"
+      ],
+      "dev": true,
+      "license": "MIT",
+      "optional": true,
+      "os": [
+        "linux"
+      ]
+    },
+    "node_modules/@rollup/rollup-linux-arm64-gnu": {
+      "version": "4.46.2",
+      "resolved": "https://registry.npmjs.org/@rollup/rollup-linux-arm64-gnu/-/rollup-linux-arm64-gnu-4.46.2.tgz",
+      "integrity": "sha512-3dRaqLfcOXYsfvw5xMrxAk9Lb1f395gkoBYzSFcc/scgRFptRXL9DOaDpMiehf9CO8ZDRJW2z45b6fpU5nwjng==",
+      "cpu": [
+        "arm64"
+      ],
+      "dev": true,
+      "license": "MIT",
+      "optional": true,
+      "os": [
+        "linux"
+      ]
+    },
+    "node_modules/@rollup/rollup-linux-arm64-musl": {
+      "version": "4.46.2",
+      "resolved": "https://registry.npmjs.org/@rollup/rollup-linux-arm64-musl/-/rollup-linux-arm64-musl-4.46.2.tgz",
+      "integrity": "sha512-fhHFTutA7SM+IrR6lIfiHskxmpmPTJUXpWIsBXpeEwNgZzZZSg/q4i6FU4J8qOGyJ0TR+wXBwx/L7Ho9z0+uDg==",
+      "cpu": [
+        "arm64"
+      ],
+      "dev": true,
+      "license": "MIT",
+      "optional": true,
+      "os": [
+        "linux"
+      ]
+    },
+    "node_modules/@rollup/rollup-linux-loongarch64-gnu": {
+      "version": "4.46.2",
+      "resolved": "https://registry.npmjs.org/@rollup/rollup-linux-loongarch64-gnu/-/rollup-linux-loongarch64-gnu-4.46.2.tgz",
+      "integrity": "sha512-i7wfGFXu8x4+FRqPymzjD+Hyav8l95UIZ773j7J7zRYc3Xsxy2wIn4x+llpunexXe6laaO72iEjeeGyUFmjKeA==",
+      "cpu": [
+        "loong64"
+      ],
+      "dev": true,
+      "license": "MIT",
+      "optional": true,
+      "os": [
+        "linux"
+      ]
+    },
+    "node_modules/@rollup/rollup-linux-ppc64-gnu": {
+      "version": "4.46.2",
+      "resolved": "https://registry.npmjs.org/@rollup/rollup-linux-ppc64-gnu/-/rollup-linux-ppc64-gnu-4.46.2.tgz",
+      "integrity": "sha512-B/l0dFcHVUnqcGZWKcWBSV2PF01YUt0Rvlurci5P+neqY/yMKchGU8ullZvIv5e8Y1C6wOn+U03mrDylP5q9Yw==",
+      "cpu": [
+        "ppc64"
+      ],
+      "dev": true,
+      "license": "MIT",
+      "optional": true,
+      "os": [
+        "linux"
+      ]
+    },
+    "node_modules/@rollup/rollup-linux-riscv64-gnu": {
+      "version": "4.46.2",
+      "resolved": "https://registry.npmjs.org/@rollup/rollup-linux-riscv64-gnu/-/rollup-linux-riscv64-gnu-4.46.2.tgz",
+      "integrity": "sha512-32k4ENb5ygtkMwPMucAb8MtV8olkPT03oiTxJbgkJa7lJ7dZMr0GCFJlyvy+K8iq7F/iuOr41ZdUHaOiqyR3iQ==",
+      "cpu": [
+        "riscv64"
+      ],
+      "dev": true,
+      "license": "MIT",
+      "optional": true,
+      "os": [
+        "linux"
+      ]
+    },
+    "node_modules/@rollup/rollup-linux-riscv64-musl": {
+      "version": "4.46.2",
+      "resolved": "https://registry.npmjs.org/@rollup/rollup-linux-riscv64-musl/-/rollup-linux-riscv64-musl-4.46.2.tgz",
+      "integrity": "sha512-t5B2loThlFEauloaQkZg9gxV05BYeITLvLkWOkRXogP4qHXLkWSbSHKM9S6H1schf/0YGP/qNKtiISlxvfmmZw==",
+      "cpu": [
+        "riscv64"
+      ],
+      "dev": true,
+      "license": "MIT",
+      "optional": true,
+      "os": [
+        "linux"
+      ]
+    },
+    "node_modules/@rollup/rollup-linux-s390x-gnu": {
+      "version": "4.46.2",
+      "resolved": "https://registry.npmjs.org/@rollup/rollup-linux-s390x-gnu/-/rollup-linux-s390x-gnu-4.46.2.tgz",
+      "integrity": "sha512-YKjekwTEKgbB7n17gmODSmJVUIvj8CX7q5442/CK80L8nqOUbMtf8b01QkG3jOqyr1rotrAnW6B/qiHwfcuWQA==",
+      "cpu": [
+        "s390x"
+      ],
+      "dev": true,
+      "license": "MIT",
+      "optional": true,
+      "os": [
+        "linux"
+      ]
+    },
+    "node_modules/@rollup/rollup-linux-x64-gnu": {
+      "version": "4.46.2",
+      "resolved": "https://registry.npmjs.org/@rollup/rollup-linux-x64-gnu/-/rollup-linux-x64-gnu-4.46.2.tgz",
+      "integrity": "sha512-Jj5a9RUoe5ra+MEyERkDKLwTXVu6s3aACP51nkfnK9wJTraCC8IMe3snOfALkrjTYd2G1ViE1hICj0fZ7ALBPA==",
+      "cpu": [
+        "x64"
+      ],
+      "dev": true,
+      "license": "MIT",
+      "optional": true,
+      "os": [
+        "linux"
+      ]
+    },
+    "node_modules/@rollup/rollup-linux-x64-musl": {
+      "version": "4.46.2",
+      "resolved": "https://registry.npmjs.org/@rollup/rollup-linux-x64-musl/-/rollup-linux-x64-musl-4.46.2.tgz",
+      "integrity": "sha512-7kX69DIrBeD7yNp4A5b81izs8BqoZkCIaxQaOpumcJ1S/kmqNFjPhDu1LHeVXv0SexfHQv5cqHsxLOjETuqDuA==",
+      "cpu": [
+        "x64"
+      ],
+      "dev": true,
+      "license": "MIT",
+      "optional": true,
+      "os": [
+        "linux"
+      ]
+    },
+    "node_modules/@rollup/rollup-win32-arm64-msvc": {
+      "version": "4.46.2",
+      "resolved": "https://registry.npmjs.org/@rollup/rollup-win32-arm64-msvc/-/rollup-win32-arm64-msvc-4.46.2.tgz",
+      "integrity": "sha512-wiJWMIpeaak/jsbaq2HMh/rzZxHVW1rU6coyeNNpMwk5isiPjSTx0a4YLSlYDwBH/WBvLz+EtsNqQScZTLJy3g==",
+      "cpu": [
+        "arm64"
+      ],
+      "dev": true,
+      "license": "MIT",
+      "optional": true,
+      "os": [
+        "win32"
+      ]
+    },
+    "node_modules/@rollup/rollup-win32-ia32-msvc": {
+      "version": "4.46.2",
+      "resolved": "https://registry.npmjs.org/@rollup/rollup-win32-ia32-msvc/-/rollup-win32-ia32-msvc-4.46.2.tgz",
+      "integrity": "sha512-gBgaUDESVzMgWZhcyjfs9QFK16D8K6QZpwAaVNJxYDLHWayOta4ZMjGm/vsAEy3hvlS2GosVFlBlP9/Wb85DqQ==",
+      "cpu": [
+        "ia32"
+      ],
+      "dev": true,
+      "license": "MIT",
+      "optional": true,
+      "os": [
+        "win32"
+      ]
+    },
+    "node_modules/@rollup/rollup-win32-x64-msvc": {
+      "version": "4.46.2",
+      "resolved": "https://registry.npmjs.org/@rollup/rollup-win32-x64-msvc/-/rollup-win32-x64-msvc-4.46.2.tgz",
+      "integrity": "sha512-CvUo2ixeIQGtF6WvuB87XWqPQkoFAFqW+HUo/WzHwuHDvIwZCtjdWXoYCcr06iKGydiqTclC4jU/TNObC/xKZg==",
+      "cpu": [
+        "x64"
+      ],
+      "dev": true,
+      "license": "MIT",
+      "optional": true,
+      "os": [
+        "win32"
+      ]
+    },
+    "node_modules/@types/estree": {
+      "version": "1.0.8",
+      "resolved": "https://registry.npmjs.org/@types/estree/-/estree-1.0.8.tgz",
+      "integrity": "sha512-dWHzHa2WqEXI/O1E9OjrocMTKJl2mSrEolh1Iomrv6U+JuNwaHXsXx9bLu5gG7BUWFIN0skIQJQ/L1rIex4X6w==",
+      "dev": true,
+      "license": "MIT"
+    },
+    "node_modules/braces": {
+      "version": "3.0.3",
+      "resolved": "https://registry.npmjs.org/braces/-/braces-3.0.3.tgz",
+      "integrity": "sha512-yQbXgO/OSZVD2IsiLlro+7Hf6Q18EJrKSEsdoMzKePKXct3gvD8oLcOQdIzGupr5Fj+EDe8gO/lxc1BzfMpxvA==",
+      "dev": true,
+      "license": "MIT",
+      "optional": true,
+      "dependencies": {
+        "fill-range": "^7.1.1"
+      },
+      "engines": {
+        "node": ">=8"
+      }
+    },
+    "node_modules/buffer-builder": {
+      "version": "0.2.0",
+      "resolved": "https://registry.npmjs.org/buffer-builder/-/buffer-builder-0.2.0.tgz",
+      "integrity": "sha512-7VPMEPuYznPSoR21NE1zvd2Xna6c/CloiZCfcMXR1Jny6PjX0N4Nsa38zcBFo/FMK+BlA+FLKbJCQ0i2yxp+Xg==",
+      "dev": true,
+      "license": "MIT/X11"
+    },
+    "node_modules/chokidar": {
+      "version": "4.0.3",
+      "resolved": "https://registry.npmjs.org/chokidar/-/chokidar-4.0.3.tgz",
+      "integrity": "sha512-Qgzu8kfBvo+cA4962jnP1KkS6Dop5NS6g7R5LFYJr4b8Ub94PPQXUksCw9PvXoeXPRRddRNC5C1JQUR2SMGtnA==",
+      "dev": true,
+      "license": "MIT",
+      "optional": true,
+      "dependencies": {
+        "readdirp": "^4.0.1"
+      },
+      "engines": {
+        "node": ">= 14.16.0"
+      },
+      "funding": {
+        "url": "https://paulmillr.com/funding/"
+      }
+    },
+    "node_modules/colorjs.io": {
+      "version": "0.5.2",
+      "resolved": "https://registry.npmjs.org/colorjs.io/-/colorjs.io-0.5.2.tgz",
+      "integrity": "sha512-twmVoizEW7ylZSN32OgKdXRmo1qg+wT5/6C3xu5b9QsWzSFAhHLn2xd8ro0diCsKfCj1RdaTP/nrcW+vAoQPIw==",
+      "dev": true,
+      "license": "MIT"
+    },
+    "node_modules/detect-libc": {
+      "version": "1.0.3",
+      "resolved": "https://registry.npmjs.org/detect-libc/-/detect-libc-1.0.3.tgz",
+      "integrity": "sha512-pGjwhsmsp4kL2RTz08wcOlGN83otlqHeD/Z5T8GXZB+/YcpQ/dgo+lbU8ZsGxV0HIvqqxo9l7mqYwyYMD9bKDg==",
+      "dev": true,
+      "license": "Apache-2.0",
+      "optional": true,
+      "bin": {
+        "detect-libc": "bin/detect-libc.js"
+      },
+      "engines": {
+        "node": ">=0.10"
+      }
+    },
+    "node_modules/esbuild": {
+      "version": "0.25.8",
+      "resolved": "https://registry.npmjs.org/esbuild/-/esbuild-0.25.8.tgz",
+      "integrity": "sha512-vVC0USHGtMi8+R4Kz8rt6JhEWLxsv9Rnu/lGYbPR8u47B+DCBksq9JarW0zOO7bs37hyOK1l2/oqtbciutL5+Q==",
+      "dev": true,
+      "hasInstallScript": true,
+      "license": "MIT",
+      "bin": {
+        "esbuild": "bin/esbuild"
+      },
+      "engines": {
+        "node": ">=18"
+      },
+      "optionalDependencies": {
+        "@esbuild/aix-ppc64": "0.25.8",
+        "@esbuild/android-arm": "0.25.8",
+        "@esbuild/android-arm64": "0.25.8",
+        "@esbuild/android-x64": "0.25.8",
+        "@esbuild/darwin-arm64": "0.25.8",
+        "@esbuild/darwin-x64": "0.25.8",
+        "@esbuild/freebsd-arm64": "0.25.8",
+        "@esbuild/freebsd-x64": "0.25.8",
+        "@esbuild/linux-arm": "0.25.8",
+        "@esbuild/linux-arm64": "0.25.8",
+        "@esbuild/linux-ia32": "0.25.8",
+        "@esbuild/linux-loong64": "0.25.8",
+        "@esbuild/linux-mips64el": "0.25.8",
+        "@esbuild/linux-ppc64": "0.25.8",
+        "@esbuild/linux-riscv64": "0.25.8",
+        "@esbuild/linux-s390x": "0.25.8",
+        "@esbuild/linux-x64": "0.25.8",
+        "@esbuild/netbsd-arm64": "0.25.8",
+        "@esbuild/netbsd-x64": "0.25.8",
+        "@esbuild/openbsd-arm64": "0.25.8",
+        "@esbuild/openbsd-x64": "0.25.8",
+        "@esbuild/openharmony-arm64": "0.25.8",
+        "@esbuild/sunos-x64": "0.25.8",
+        "@esbuild/win32-arm64": "0.25.8",
+        "@esbuild/win32-ia32": "0.25.8",
+        "@esbuild/win32-x64": "0.25.8"
+      }
+    },
+    "node_modules/fdir": {
+      "version": "6.4.6",
+      "resolved": "https://registry.npmjs.org/fdir/-/fdir-6.4.6.tgz",
+      "integrity": "sha512-hiFoqpyZcfNm1yc4u8oWCf9A2c4D3QjCrks3zmoVKVxpQRzmPNar1hUJcBG2RQHvEVGDN+Jm81ZheVLAQMK6+w==",
+      "dev": true,
+      "license": "MIT",
+      "peerDependencies": {
+        "picomatch": "^3 || ^4"
+      },
+      "peerDependenciesMeta": {
+        "picomatch": {
+          "optional": true
+        }
+      }
+    },
+    "node_modules/fill-range": {
+      "version": "7.1.1",
+      "resolved": "https://registry.npmjs.org/fill-range/-/fill-range-7.1.1.tgz",
+      "integrity": "sha512-YsGpe3WHLK8ZYi4tWDg2Jy3ebRz2rXowDxnld4bkQB00cc/1Zw9AWnC0i9ztDJitivtQvaI9KaLyKrc+hBW0yg==",
+      "dev": true,
+      "license": "MIT",
+      "optional": true,
+      "dependencies": {
+        "to-regex-range": "^5.0.1"
+      },
+      "engines": {
+        "node": ">=8"
+      }
+    },
+    "node_modules/fsevents": {
+      "version": "2.3.3",
+      "resolved": "https://registry.npmjs.org/fsevents/-/fsevents-2.3.3.tgz",
+      "integrity": "sha512-5xoDfX+fL7faATnagmWPpbFtwh/R77WmMMqqHGS65C3vvB0YHrgF+B1YmZ3441tMj5n63k0212XNoJwzlhffQw==",
+      "dev": true,
+      "hasInstallScript": true,
+      "license": "MIT",
+      "optional": true,
+      "os": [
+        "darwin"
+      ],
+      "engines": {
+        "node": "^8.16.0 || ^10.6.0 || >=11.0.0"
+      }
+    },
+    "node_modules/has-flag": {
+      "version": "4.0.0",
+      "resolved": "https://registry.npmjs.org/has-flag/-/has-flag-4.0.0.tgz",
+      "integrity": "sha512-EykJT/Q1KjTWctppgIAgfSO0tKVuZUjhgMr17kqTumMl6Afv3EISleU7qZUzoXDFTAHTDC4NOoG/ZxU3EvlMPQ==",
+      "dev": true,
+      "license": "MIT",
+      "engines": {
+        "node": ">=8"
+      }
+    },
+    "node_modules/immutable": {
+      "version": "5.1.3",
+      "resolved": "https://registry.npmjs.org/immutable/-/immutable-5.1.3.tgz",
+      "integrity": "sha512-+chQdDfvscSF1SJqv2gn4SRO2ZyS3xL3r7IW/wWEEzrzLisnOlKiQu5ytC/BVNcS15C39WT2Hg/bjKjDMcu+zg==",
+      "dev": true,
+      "license": "MIT"
+    },
+    "node_modules/is-extglob": {
+      "version": "2.1.1",
+      "resolved": "https://registry.npmjs.org/is-extglob/-/is-extglob-2.1.1.tgz",
+      "integrity": "sha512-SbKbANkN603Vi4jEZv49LeVJMn4yGwsbzZworEoyEiutsN3nJYdbO36zfhGJ6QEDpOZIFkDtnq5JRxmvl3jsoQ==",
+      "dev": true,
+      "license": "MIT",
+      "optional": true,
+      "engines": {
+        "node": ">=0.10.0"
+      }
+    },
+    "node_modules/is-glob": {
+      "version": "4.0.3",
+      "resolved": "https://registry.npmjs.org/is-glob/-/is-glob-4.0.3.tgz",
+      "integrity": "sha512-xelSayHH36ZgE7ZWhli7pW34hNbNl8Ojv5KVmkJD4hBdD3th8Tfk9vYasLM+mXWOZhFkgZfxhLSnrwRr4elSSg==",
+      "dev": true,
+      "license": "MIT",
+      "optional": true,
+      "dependencies": {
+        "is-extglob": "^2.1.1"
+      },
+      "engines": {
+        "node": ">=0.10.0"
+      }
+    },
+    "node_modules/is-number": {
+      "version": "7.0.0",
+      "resolved": "https://registry.npmjs.org/is-number/-/is-number-7.0.0.tgz",
+      "integrity": "sha512-41Cifkg6e8TylSpdtTpeLVMqvSBEVzTttHvERD741+pnZ8ANv0004MRL43QKPDlK9cGvNp6NZWZUBlbGXYxxng==",
+      "dev": true,
+      "license": "MIT",
+      "optional": true,
+      "engines": {
+        "node": ">=0.12.0"
+      }
+    },
+    "node_modules/micromatch": {
+      "version": "4.0.8",
+      "resolved": "https://registry.npmjs.org/micromatch/-/micromatch-4.0.8.tgz",
+      "integrity": "sha512-PXwfBhYu0hBCPw8Dn0E+WDYb7af3dSLVWKi3HGv84IdF4TyFoC0ysxFd0Goxw7nSv4T/PzEJQxsYsEiFCKo2BA==",
+      "dev": true,
+      "license": "MIT",
+      "optional": true,
+      "dependencies": {
+        "braces": "^3.0.3",
+        "picomatch": "^2.3.1"
+      },
+      "engines": {
+        "node": ">=8.6"
+      }
+    },
+    "node_modules/micromatch/node_modules/picomatch": {
+      "version": "2.3.1",
+      "resolved": "https://registry.npmjs.org/picomatch/-/picomatch-2.3.1.tgz",
+      "integrity": "sha512-JU3teHTNjmE2VCGFzuY8EXzCDVwEqB2a8fsIvwaStHhAWJEeVd1o1QD80CU6+ZdEXXSLbSsuLwJjkCBWqRQUVA==",
+      "dev": true,
+      "license": "MIT",
+      "optional": true,
+      "engines": {
+        "node": ">=8.6"
+      },
+      "funding": {
+        "url": "https://github.com/sponsors/jonschlinkert"
+      }
+    },
+    "node_modules/nanoid": {
+      "version": "3.3.11",
+      "resolved": "https://registry.npmjs.org/nanoid/-/nanoid-3.3.11.tgz",
+      "integrity": "sha512-N8SpfPUnUp1bK+PMYW8qSWdl9U+wwNWI4QKxOYDy9JAro3WMX7p2OeVRF9v+347pnakNevPmiHhNmZ2HbFA76w==",
+      "dev": true,
+      "funding": [
+        {
+          "type": "github",
+          "url": "https://github.com/sponsors/ai"
+        }
+      ],
+      "license": "MIT",
+      "bin": {
+        "nanoid": "bin/nanoid.cjs"
+      },
+      "engines": {
+        "node": "^10 || ^12 || ^13.7 || ^14 || >=15.0.1"
+      }
+    },
+    "node_modules/node-addon-api": {
+      "version": "7.1.1",
+      "resolved": "https://registry.npmjs.org/node-addon-api/-/node-addon-api-7.1.1.tgz",
+      "integrity": "sha512-5m3bsyrjFWE1xf7nz7YXdN4udnVtXK6/Yfgn5qnahL6bCkf2yKt4k3nuTKAtT4r3IG8JNR2ncsIMdZuAzJjHQQ==",
+      "dev": true,
+      "license": "MIT",
+      "optional": true
+    },
+    "node_modules/picocolors": {
+      "version": "1.1.1",
+      "resolved": "https://registry.npmjs.org/picocolors/-/picocolors-1.1.1.tgz",
+      "integrity": "sha512-xceH2snhtb5M9liqDsmEw56le376mTZkEX/jEb/RxNFyegNul7eNslCXP9FDj/Lcu0X8KEyMceP2ntpaHrDEVA==",
+      "dev": true,
+      "license": "ISC"
+    },
+    "node_modules/picomatch": {
+      "version": "4.0.3",
+      "resolved": "https://registry.npmjs.org/picomatch/-/picomatch-4.0.3.tgz",
+      "integrity": "sha512-5gTmgEY/sqK6gFXLIsQNH19lWb4ebPDLA4SdLP7dsWkIXHWlG66oPuVvXSGFPppYZz8ZDZq0dYYrbHfBCVUb1Q==",
+      "dev": true,
+      "license": "MIT",
+      "engines": {
+        "node": ">=12"
+      },
+      "funding": {
+        "url": "https://github.com/sponsors/jonschlinkert"
+      }
+    },
+    "node_modules/postcss": {
+      "version": "8.5.6",
+      "resolved": "https://registry.npmjs.org/postcss/-/postcss-8.5.6.tgz",
+      "integrity": "sha512-3Ybi1tAuwAP9s0r1UQ2J4n5Y0G05bJkpUIO0/bI9MhwmD70S5aTWbXGBwxHrelT+XM1k6dM0pk+SwNkpTRN7Pg==",
+      "dev": true,
+      "funding": [
+        {
+          "type": "opencollective",
+          "url": "https://opencollective.com/postcss/"
+        },
+        {
+          "type": "tidelift",
+          "url": "https://tidelift.com/funding/github/npm/postcss"
+        },
+        {
+          "type": "github",
+          "url": "https://github.com/sponsors/ai"
+        }
+      ],
+      "license": "MIT",
+      "dependencies": {
+        "nanoid": "^3.3.11",
+        "picocolors": "^1.1.1",
+        "source-map-js": "^1.2.1"
+      },
+      "engines": {
+        "node": "^10 || ^12 || >=14"
+      }
+    },
+    "node_modules/readdirp": {
+      "version": "4.1.2",
+      "resolved": "https://registry.npmjs.org/readdirp/-/readdirp-4.1.2.tgz",
+      "integrity": "sha512-GDhwkLfywWL2s6vEjyhri+eXmfH6j1L7JE27WhqLeYzoh/A3DBaYGEj2H/HFZCn/kMfim73FXxEJTw06WtxQwg==",
+      "dev": true,
+      "license": "MIT",
+      "optional": true,
+      "engines": {
+        "node": ">= 14.18.0"
+      },
+      "funding": {
+        "type": "individual",
+        "url": "https://paulmillr.com/funding/"
+      }
+    },
+    "node_modules/rollup": {
+      "version": "4.46.2",
+      "resolved": "https://registry.npmjs.org/rollup/-/rollup-4.46.2.tgz",
+      "integrity": "sha512-WMmLFI+Boh6xbop+OAGo9cQ3OgX9MIg7xOQjn+pTCwOkk+FNDAeAemXkJ3HzDJrVXleLOFVa1ipuc1AmEx1Dwg==",
+      "dev": true,
+      "license": "MIT",
+      "dependencies": {
+        "@types/estree": "1.0.8"
+      },
+      "bin": {
+        "rollup": "dist/bin/rollup"
+      },
+      "engines": {
+        "node": ">=18.0.0",
+        "npm": ">=8.0.0"
+      },
+      "optionalDependencies": {
+        "@rollup/rollup-android-arm-eabi": "4.46.2",
+        "@rollup/rollup-android-arm64": "4.46.2",
+        "@rollup/rollup-darwin-arm64": "4.46.2",
+        "@rollup/rollup-darwin-x64": "4.46.2",
+        "@rollup/rollup-freebsd-arm64": "4.46.2",
+        "@rollup/rollup-freebsd-x64": "4.46.2",
+        "@rollup/rollup-linux-arm-gnueabihf": "4.46.2",
+        "@rollup/rollup-linux-arm-musleabihf": "4.46.2",
+        "@rollup/rollup-linux-arm64-gnu": "4.46.2",
+        "@rollup/rollup-linux-arm64-musl": "4.46.2",
+        "@rollup/rollup-linux-loongarch64-gnu": "4.46.2",
+        "@rollup/rollup-linux-ppc64-gnu": "4.46.2",
+        "@rollup/rollup-linux-riscv64-gnu": "4.46.2",
+        "@rollup/rollup-linux-riscv64-musl": "4.46.2",
+        "@rollup/rollup-linux-s390x-gnu": "4.46.2",
+        "@rollup/rollup-linux-x64-gnu": "4.46.2",
+        "@rollup/rollup-linux-x64-musl": "4.46.2",
+        "@rollup/rollup-win32-arm64-msvc": "4.46.2",
+        "@rollup/rollup-win32-ia32-msvc": "4.46.2",
+        "@rollup/rollup-win32-x64-msvc": "4.46.2",
+        "fsevents": "~2.3.2"
+      }
+    },
+    "node_modules/rxjs": {
+      "version": "7.8.2",
+      "resolved": "https://registry.npmjs.org/rxjs/-/rxjs-7.8.2.tgz",
+      "integrity": "sha512-dhKf903U/PQZY6boNNtAGdWbG85WAbjT/1xYoZIC7FAY0yWapOBQVsVrDl58W86//e1VpMNBtRV4MaXfdMySFA==",
+      "dev": true,
+      "license": "Apache-2.0",
+      "dependencies": {
+        "tslib": "^2.1.0"
+      }
+    },
+    "node_modules/sass": {
+      "version": "1.90.0",
+      "resolved": "https://registry.npmjs.org/sass/-/sass-1.90.0.tgz",
+      "integrity": "sha512-9GUyuksjw70uNpb1MTYWsH9MQHOHY6kwfnkafC24+7aOMZn9+rVMBxRbLvw756mrBFbIsFg6Xw9IkR2Fnn3k+Q==",
+      "dev": true,
+      "license": "MIT",
+      "optional": true,
+      "dependencies": {
+        "chokidar": "^4.0.0",
+        "immutable": "^5.0.2",
+        "source-map-js": ">=0.6.2 <2.0.0"
+      },
+      "bin": {
+        "sass": "sass.js"
+      },
+      "engines": {
+        "node": ">=14.0.0"
+      },
+      "optionalDependencies": {
+        "@parcel/watcher": "^2.4.1"
+      }
+    },
+    "node_modules/sass-embedded": {
+      "version": "1.90.0",
+      "resolved": "https://registry.npmjs.org/sass-embedded/-/sass-embedded-1.90.0.tgz",
+      "integrity": "sha512-XP1EltyLLfuU5FsGVjSz8PcT925oA3rDnJTWOEBHR42k62ZEbKTcZ4gVlFwKi0Ggzi5E8v1K2BplD8ELHwusYg==",
+      "dev": true,
+      "license": "MIT",
+      "dependencies": {
+        "@bufbuild/protobuf": "^2.5.0",
+        "buffer-builder": "^0.2.0",
+        "colorjs.io": "^0.5.0",
+        "immutable": "^5.0.2",
+        "rxjs": "^7.4.0",
+        "supports-color": "^8.1.1",
+        "sync-child-process": "^1.0.2",
+        "varint": "^6.0.0"
+      },
+      "bin": {
+        "sass": "dist/bin/sass.js"
+      },
+      "engines": {
+        "node": ">=16.0.0"
+      },
+      "optionalDependencies": {
+        "sass-embedded-all-unknown": "1.90.0",
+        "sass-embedded-android-arm": "1.90.0",
+        "sass-embedded-android-arm64": "1.90.0",
+        "sass-embedded-android-riscv64": "1.90.0",
+        "sass-embedded-android-x64": "1.90.0",
+        "sass-embedded-darwin-arm64": "1.90.0",
+        "sass-embedded-darwin-x64": "1.90.0",
+        "sass-embedded-linux-arm": "1.90.0",
+        "sass-embedded-linux-arm64": "1.90.0",
+        "sass-embedded-linux-musl-arm": "1.90.0",
+        "sass-embedded-linux-musl-arm64": "1.90.0",
+        "sass-embedded-linux-musl-riscv64": "1.90.0",
+        "sass-embedded-linux-musl-x64": "1.90.0",
+        "sass-embedded-linux-riscv64": "1.90.0",
+        "sass-embedded-linux-x64": "1.90.0",
+        "sass-embedded-unknown-all": "1.90.0",
+        "sass-embedded-win32-arm64": "1.90.0",
+        "sass-embedded-win32-x64": "1.90.0"
+      }
+    },
+    "node_modules/sass-embedded-all-unknown": {
+      "version": "1.90.0",
+      "resolved": "https://registry.npmjs.org/sass-embedded-all-unknown/-/sass-embedded-all-unknown-1.90.0.tgz",
+      "integrity": "sha512-/n7jTQvI+hftDDrHzK19G4pxfDzOhtjuQO1K54ui1pT2S0sWfWDjCYUbQgtWQ6FO7g5qWS0hgmrWdc7fmS3rgA==",
+      "cpu": [
+        "!arm",
+        "!arm64",
+        "!riscv64",
+        "!x64"
+      ],
+      "dev": true,
+      "license": "MIT",
+      "optional": true,
+      "dependencies": {
+        "sass": "1.90.0"
+      }
+    },
+    "node_modules/sass-embedded-android-arm": {
+      "version": "1.90.0",
+      "resolved": "https://registry.npmjs.org/sass-embedded-android-arm/-/sass-embedded-android-arm-1.90.0.tgz",
+      "integrity": "sha512-usF6kVJQWa1CMgPH1nCT1y8KEmAT2fzB00dDIPBYHq8U5VZLCihi2bJRP5U9NlcwP1TlKGKCjwsbIdSjDKfecg==",
+      "cpu": [
+        "arm"
+      ],
+      "dev": true,
+      "license": "MIT",
+      "optional": true,
+      "os": [
+        "android"
+      ],
+      "engines": {
+        "node": ">=14.0.0"
+      }
+    },
+    "node_modules/sass-embedded-android-arm64": {
+      "version": "1.90.0",
+      "resolved": "https://registry.npmjs.org/sass-embedded-android-arm64/-/sass-embedded-android-arm64-1.90.0.tgz",
+      "integrity": "sha512-bkTlewzWksa6Sj4Zs1CWiutnvUbsO3xuYh2QBRknXsOtuMlfTPoXnwhCnyE4lSvUxw2qxSbv+NdQev9qMfsBgA==",
+      "cpu": [
+        "arm64"
+      ],
+      "dev": true,
+      "license": "MIT",
+      "optional": true,
+      "os": [
+        "android"
+      ],
+      "engines": {
+        "node": ">=14.0.0"
+      }
+    },
+    "node_modules/sass-embedded-android-riscv64": {
+      "version": "1.90.0",
+      "resolved": "https://registry.npmjs.org/sass-embedded-android-riscv64/-/sass-embedded-android-riscv64-1.90.0.tgz",
+      "integrity": "sha512-bpqCIOaX+0Lou/BNJ4iJIKbWbVaYXFdg26C3gG6gxxKZRzp/6OYCxHrIQDwhKz6YC8Q5rwNPMpfDVYbWPcgroA==",
+      "cpu": [
+        "riscv64"
+      ],
+      "dev": true,
+      "license": "MIT",
+      "optional": true,
+      "os": [
+        "android"
+      ],
+      "engines": {
+        "node": ">=14.0.0"
+      }
+    },
+    "node_modules/sass-embedded-android-x64": {
+      "version": "1.90.0",
+      "resolved": "https://registry.npmjs.org/sass-embedded-android-x64/-/sass-embedded-android-x64-1.90.0.tgz",
+      "integrity": "sha512-GNxVKnCMd/p2icZ+Q4mhvNk19NrLXq1C4guiqjrycHYQLEnxRkjbW1QXYiL+XyDn4e+Bcq0knzG0I9pMuNZxkg==",
+      "cpu": [
+        "x64"
+      ],
+      "dev": true,
+      "license": "MIT",
+      "optional": true,
+      "os": [
+        "android"
+      ],
+      "engines": {
+        "node": ">=14.0.0"
+      }
+    },
+    "node_modules/sass-embedded-darwin-arm64": {
+      "version": "1.90.0",
+      "resolved": "https://registry.npmjs.org/sass-embedded-darwin-arm64/-/sass-embedded-darwin-arm64-1.90.0.tgz",
+      "integrity": "sha512-qr4KBMJfBA+lzXiWnP00qzpLzHQzGd1OSK3VHcUFjZ8l7VOYf2R7Tc3fcTLhpaNPMJtTK0jrk8rFqBvsiZExnA==",
+      "cpu": [
+        "arm64"
+      ],
+      "dev": true,
+      "license": "MIT",
+      "optional": true,
+      "os": [
+        "darwin"
+      ],
+      "engines": {
+        "node": ">=14.0.0"
+      }
+    },
+    "node_modules/sass-embedded-darwin-x64": {
+      "version": "1.90.0",
+      "resolved": "https://registry.npmjs.org/sass-embedded-darwin-x64/-/sass-embedded-darwin-x64-1.90.0.tgz",
+      "integrity": "sha512-z2nr1nNqtWDLVRwTbHtL7zriK90U7O/Gb15UaCSMYeAz9Y+wog5s/sDEKm0+GsVdzzkaCaMZRWGN4jTilnUwmQ==",
+      "cpu": [
+        "x64"
+      ],
+      "dev": true,
+      "license": "MIT",
+      "optional": true,
+      "os": [
+        "darwin"
+      ],
+      "engines": {
+        "node": ">=14.0.0"
+      }
+    },
+    "node_modules/sass-embedded-linux-arm": {
+      "version": "1.90.0",
+      "resolved": "https://registry.npmjs.org/sass-embedded-linux-arm/-/sass-embedded-linux-arm-1.90.0.tgz",
+      "integrity": "sha512-FeBxI5Q2HvM3CCadcEcQgvWbDPVs2YEF0PZ87fbAVTCG8dV+iNnQreSz7GRJroknpvbRhm5t2gedvcgmTnPb2Q==",
+      "cpu": [
+        "arm"
+      ],
+      "dev": true,
+      "license": "MIT",
+      "optional": true,
+      "os": [
+        "linux"
+      ],
+      "engines": {
+        "node": ">=14.0.0"
+      }
+    },
+    "node_modules/sass-embedded-linux-arm64": {
+      "version": "1.90.0",
+      "resolved": "https://registry.npmjs.org/sass-embedded-linux-arm64/-/sass-embedded-linux-arm64-1.90.0.tgz",
+      "integrity": "sha512-SPMcGZuP71Fj8btCGtlBnv8h8DAbJn8EQfLzXs9oo6NGFFLVjNGiFpqGfgtUV6DLWCuaRyEFeViO7wZow/vKGQ==",
+      "cpu": [
+        "arm64"
+      ],
+      "dev": true,
+      "license": "MIT",
+      "optional": true,
+      "os": [
+        "linux"
+      ],
+      "engines": {
+        "node": ">=14.0.0"
+      }
+    },
+    "node_modules/sass-embedded-linux-musl-arm": {
+      "version": "1.90.0",
+      "resolved": "https://registry.npmjs.org/sass-embedded-linux-musl-arm/-/sass-embedded-linux-musl-arm-1.90.0.tgz",
+      "integrity": "sha512-EB2z0fUXdUdvSoddf4DzdZQkD/xyreD72gwAi8YScgUvR4HMXI7bLcK/n78Rft6OnqvV8090hjC8FsLDo3x5xQ==",
+      "cpu": [
+        "arm"
+      ],
+      "dev": true,
+      "license": "MIT",
+      "optional": true,
+      "os": [
+        "linux"
+      ],
+      "engines": {
+        "node": ">=14.0.0"
+      }
+    },
+    "node_modules/sass-embedded-linux-musl-arm64": {
+      "version": "1.90.0",
+      "resolved": "https://registry.npmjs.org/sass-embedded-linux-musl-arm64/-/sass-embedded-linux-musl-arm64-1.90.0.tgz",
+      "integrity": "sha512-xLH7+PFq763MoEm3vI7hQk5E+nStiLWbijHEYW/tEtCbcQIphgzSkDItEezxXew3dU4EJ1jqrBUySPdoXFLqWA==",
+      "cpu": [
+        "arm64"
+      ],
+      "dev": true,
+      "license": "MIT",
+      "optional": true,
+      "os": [
+        "linux"
+      ],
+      "engines": {
+        "node": ">=14.0.0"
+      }
+    },
+    "node_modules/sass-embedded-linux-musl-riscv64": {
+      "version": "1.90.0",
+      "resolved": "https://registry.npmjs.org/sass-embedded-linux-musl-riscv64/-/sass-embedded-linux-musl-riscv64-1.90.0.tgz",
+      "integrity": "sha512-L21UkOgnSrD+ERF+jo1IWneGv40t0ap9+3cI+wZWYhQS5MkxponhT9QaNU57JEDJwB9mOl01LVw14opz4SN+VQ==",
+      "cpu": [
+        "riscv64"
+      ],
+      "dev": true,
+      "license": "MIT",
+      "optional": true,
+      "os": [
+        "linux"
+      ],
+      "engines": {
+        "node": ">=14.0.0"
+      }
+    },
+    "node_modules/sass-embedded-linux-musl-x64": {
+      "version": "1.90.0",
+      "resolved": "https://registry.npmjs.org/sass-embedded-linux-musl-x64/-/sass-embedded-linux-musl-x64-1.90.0.tgz",
+      "integrity": "sha512-NeAycQlsdhFdnIeSmRmScYUyCd+uE+x15NLFunbF8M0PgCKurrUhaxgGKSuBbaK56FpxarKOHCqcOrWbemIGzQ==",
+      "cpu": [
+        "x64"
+      ],
+      "dev": true,
+      "license": "MIT",
+      "optional": true,
+      "os": [
+        "linux"
+      ],
+      "engines": {
+        "node": ">=14.0.0"
+      }
+    },
+    "node_modules/sass-embedded-linux-riscv64": {
+      "version": "1.90.0",
+      "resolved": "https://registry.npmjs.org/sass-embedded-linux-riscv64/-/sass-embedded-linux-riscv64-1.90.0.tgz",
+      "integrity": "sha512-lJopaQhW8S+kaQ61vMqq3c+bOurcf9RdZf2EmzQYpc2y1vT5cWfRNrRkbAgO/23IQxsk/fq3UIUnsjnyQmi6MA==",
+      "cpu": [
+        "riscv64"
+      ],
+      "dev": true,
+      "license": "MIT",
+      "optional": true,
+      "os": [
+        "linux"
+      ],
+      "engines": {
+        "node": ">=14.0.0"
+      }
+    },
+    "node_modules/sass-embedded-linux-x64": {
+      "version": "1.90.0",
+      "resolved": "https://registry.npmjs.org/sass-embedded-linux-x64/-/sass-embedded-linux-x64-1.90.0.tgz",
+      "integrity": "sha512-Cc061gBfMPwH9rN7neQaH36cvOQC+dFMSGIeX5qUOhrEL4Ng51iqBV6aI4RIB1jCFGth6eDydVRN1VdV9qom8A==",
+      "cpu": [
+        "x64"
+      ],
+      "dev": true,
+      "license": "MIT",
+      "optional": true,
+      "os": [
+        "linux"
+      ],
+      "engines": {
+        "node": ">=14.0.0"
+      }
+    },
+    "node_modules/sass-embedded-unknown-all": {
+      "version": "1.90.0",
+      "resolved": "https://registry.npmjs.org/sass-embedded-unknown-all/-/sass-embedded-unknown-all-1.90.0.tgz",
+      "integrity": "sha512-DBGzHVCJDqtjTHZFohush9YTxd4ZxhIygIRTNRXnA0359woF9Z8AS7/YxfzwkqrTX5durSJa6ZamGFYVLoRphQ==",
+      "dev": true,
+      "license": "MIT",
+      "optional": true,
+      "os": [
+        "!android",
+        "!darwin",
+        "!linux",
+        "!win32"
+      ],
+      "dependencies": {
+        "sass": "1.90.0"
+      }
+    },
+    "node_modules/sass-embedded-win32-arm64": {
+      "version": "1.90.0",
+      "resolved": "https://registry.npmjs.org/sass-embedded-win32-arm64/-/sass-embedded-win32-arm64-1.90.0.tgz",
+      "integrity": "sha512-c3/vL/CATnaW3x/6kcNbCROEOUU7zvJpIURp7M9664GJj08/gLPRWKNruw0OkAPQ3C5TTQz7+/fQWEpRA6qmvA==",
+      "cpu": [
+        "arm64"
+      ],
+      "dev": true,
+      "license": "MIT",
+      "optional": true,
+      "os": [
+        "win32"
+      ],
+      "engines": {
+        "node": ">=14.0.0"
+      }
+    },
+    "node_modules/sass-embedded-win32-x64": {
+      "version": "1.90.0",
+      "resolved": "https://registry.npmjs.org/sass-embedded-win32-x64/-/sass-embedded-win32-x64-1.90.0.tgz",
+      "integrity": "sha512-PFwdW7AYtCkwi3NfWFeexvIZEJ0nuShp8Bjjc3px756+18yYwBWa78F4TGdIQmJfpYKBhgkVjFOctwq+NCHntA==",
+      "cpu": [
+        "x64"
+      ],
+      "dev": true,
+      "license": "MIT",
+      "optional": true,
+      "os": [
+        "win32"
+      ],
+      "engines": {
+        "node": ">=14.0.0"
+      }
+    },
+    "node_modules/source-map-js": {
+      "version": "1.2.1",
+      "resolved": "https://registry.npmjs.org/source-map-js/-/source-map-js-1.2.1.tgz",
+      "integrity": "sha512-UXWMKhLOwVKb728IUtQPXxfYU+usdybtUrK/8uGE8CQMvrhOpwvzDBwj0QhSL7MQc7vIsISBG8VQ8+IDQxpfQA==",
+      "dev": true,
+      "license": "BSD-3-Clause",
+      "engines": {
+        "node": ">=0.10.0"
+      }
+    },
+    "node_modules/supports-color": {
+      "version": "8.1.1",
+      "resolved": "https://registry.npmjs.org/supports-color/-/supports-color-8.1.1.tgz",
+      "integrity": "sha512-MpUEN2OodtUzxvKQl72cUF7RQ5EiHsGvSsVG0ia9c5RbWGL2CI4C7EpPS8UTBIplnlzZiNuV56w+FuNxy3ty2Q==",
+      "dev": true,
+      "license": "MIT",
+      "dependencies": {
+        "has-flag": "^4.0.0"
+      },
+      "engines": {
+        "node": ">=10"
+      },
+      "funding": {
+        "url": "https://github.com/chalk/supports-color?sponsor=1"
+      }
+    },
+    "node_modules/sync-child-process": {
+      "version": "1.0.2",
+      "resolved": "https://registry.npmjs.org/sync-child-process/-/sync-child-process-1.0.2.tgz",
+      "integrity": "sha512-8lD+t2KrrScJ/7KXCSyfhT3/hRq78rC0wBFqNJXv3mZyn6hW2ypM05JmlSvtqRbeq6jqA94oHbxAr2vYsJ8vDA==",
+      "dev": true,
+      "license": "MIT",
+      "dependencies": {
+        "sync-message-port": "^1.0.0"
+      },
+      "engines": {
+        "node": ">=16.0.0"
+      }
+    },
+    "node_modules/sync-message-port": {
+      "version": "1.1.3",
+      "resolved": "https://registry.npmjs.org/sync-message-port/-/sync-message-port-1.1.3.tgz",
+      "integrity": "sha512-GTt8rSKje5FilG+wEdfCkOcLL7LWqpMlr2c3LRuKt/YXxcJ52aGSbGBAdI4L3aaqfrBt6y711El53ItyH1NWzg==",
+      "dev": true,
+      "license": "MIT",
+      "engines": {
+        "node": ">=16.0.0"
+      }
+    },
+    "node_modules/tinyglobby": {
+      "version": "0.2.14",
+      "resolved": "https://registry.npmjs.org/tinyglobby/-/tinyglobby-0.2.14.tgz",
+      "integrity": "sha512-tX5e7OM1HnYr2+a2C/4V0htOcSQcoSTH9KgJnVvNm5zm/cyEWKJ7j7YutsH9CxMdtOkkLFy2AHrMci9IM8IPZQ==",
+      "dev": true,
+      "license": "MIT",
+      "dependencies": {
+        "fdir": "^6.4.4",
+        "picomatch": "^4.0.2"
+      },
+      "engines": {
+        "node": ">=12.0.0"
+      },
+      "funding": {
+        "url": "https://github.com/sponsors/SuperchupuDev"
+      }
+    },
+    "node_modules/to-regex-range": {
+      "version": "5.0.1",
+      "resolved": "https://registry.npmjs.org/to-regex-range/-/to-regex-range-5.0.1.tgz",
+      "integrity": "sha512-65P7iz6X5yEr1cwcgvQxbbIw7Uk3gOy5dIdtZ4rDveLqhrdJP+Li/Hx6tyK0NEb+2GCyneCMJiGqrADCSNk8sQ==",
+      "dev": true,
+      "license": "MIT",
+      "optional": true,
+      "dependencies": {
+        "is-number": "^7.0.0"
+      },
+      "engines": {
+        "node": ">=8.0"
+      }
+    },
+    "node_modules/tslib": {
+      "version": "2.8.1",
+      "resolved": "https://registry.npmjs.org/tslib/-/tslib-2.8.1.tgz",
+      "integrity": "sha512-oJFu94HQb+KVduSUQL7wnpmqnfmLsOA/nAh6b6EH0wCEoK0/mPeXU6c3wKDV83MkOuHPRHtSXKKU99IBazS/2w==",
+      "dev": true,
+      "license": "0BSD"
+    },
+    "node_modules/typescript": {
+      "version": "5.8.3",
+      "resolved": "https://registry.npmjs.org/typescript/-/typescript-5.8.3.tgz",
+      "integrity": "sha512-p1diW6TqL9L07nNxvRMM7hMMw4c5XOo/1ibL4aAIGmSAt9slTE1Xgw5KWuof2uTOvCg9BY7ZRi+GaF+7sfgPeQ==",
+      "dev": true,
+      "license": "Apache-2.0",
+      "bin": {
+        "tsc": "bin/tsc",
+        "tsserver": "bin/tsserver"
+      },
+      "engines": {
+        "node": ">=14.17"
+      }
+    },
+    "node_modules/varint": {
+      "version": "6.0.0",
+      "resolved": "https://registry.npmjs.org/varint/-/varint-6.0.0.tgz",
+      "integrity": "sha512-cXEIW6cfr15lFv563k4GuVuW/fiwjknytD37jIOLSdSWuOI6WnO/oKwmP2FQTU2l01LP8/M5TSAJpzUaGe3uWg==",
+      "dev": true,
+      "license": "MIT"
+    },
+    "node_modules/vite": {
+      "version": "7.1.0",
+      "resolved": "https://registry.npmjs.org/vite/-/vite-7.1.0.tgz",
+      "integrity": "sha512-3jdAy3NhBJYsa/lCFcnRfbK4kNkO/bhijFCnv5ByUQk/eekYagoV2yQSISUrhpV+5JiY5hmwOh7jNnQ68dFMuQ==",
+      "dev": true,
+      "license": "MIT",
+      "dependencies": {
+        "esbuild": "^0.25.0",
+        "fdir": "^6.4.6",
+        "picomatch": "^4.0.3",
+        "postcss": "^8.5.6",
+        "rollup": "^4.43.0",
+        "tinyglobby": "^0.2.14"
+      },
+      "bin": {
+        "vite": "bin/vite.js"
+      },
+      "engines": {
+        "node": "^20.19.0 || >=22.12.0"
+      },
+      "funding": {
+        "url": "https://github.com/vitejs/vite?sponsor=1"
+      },
+      "optionalDependencies": {
+        "fsevents": "~2.3.3"
+      },
+      "peerDependencies": {
+        "@types/node": "^20.19.0 || >=22.12.0",
+        "jiti": ">=1.21.0",
+        "less": "^4.0.0",
+        "lightningcss": "^1.21.0",
+        "sass": "^1.70.0",
+        "sass-embedded": "^1.70.0",
+        "stylus": ">=0.54.8",
+        "sugarss": "^5.0.0",
+        "terser": "^5.16.0",
+        "tsx": "^4.8.1",
+        "yaml": "^2.4.2"
+      },
+      "peerDependenciesMeta": {
+        "@types/node": {
+          "optional": true
+        },
+        "jiti": {
+          "optional": true
+        },
+        "less": {
+          "optional": true
+        },
+        "lightningcss": {
+          "optional": true
+        },
+        "sass": {
+          "optional": true
+        },
+        "sass-embedded": {
+          "optional": true
+        },
+        "stylus": {
+          "optional": true
+        },
+        "sugarss": {
+          "optional": true
+        },
+        "terser": {
+          "optional": true
+        },
+        "tsx": {
+          "optional": true
+        },
+        "yaml": {
+          "optional": true
+        }
+      }
+    }
+  }
+}
+===== ./package.json =====
+{
+  "name": "weblarek",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview"
+  },
+  "devDependencies": {
+    "sass-embedded": "^1.90.0",
+    "typescript": "~5.8.3",
+    "vite": "^7.1.0"
+  }
+}
+===== ./public/.nojekyll =====
+===== ./public/browserconfig.xml =====
+<?xml version="1.0" encoding="utf-8"?>
+<browserconfig>
+    <msapplication>
+        <tile>
+            <square150x150logo src="/mstile-150x150.png"/>
+            <TileColor>#da532c</TileColor>
+        </tile>
+    </msapplication>
+</browserconfig>
+===== ./public/manifest.json =====
+{
+    "name": "",
+    "short_name": "",
+    "icons": [
+        {
+            "src": "/android-chrome-192x192.png",
+            "sizes": "192x192",
+            "type": "image/png"
+        },
+        {
+            "src": "/android-chrome-512x512.png",
+            "sizes": "512x512",
+            "type": "image/png"
+        }
+    ],
+    "theme_color": "#000000",
+    "background_color": "#000000",
+    "display": "standalone"
+}
+===== ./README.md =====
+Проектная работа "Веб-ларек"
+
+Стек: HTML, SCSS, TS, Vite
+
+Структура проекта:
+
+src/ — исходные файлы проекта
+
+src/components/ — папка с JS компонентами
+
+src/components/base/ — папка с базовым кодом
+
+Важные файлы:
+
+index.html — HTML-файл главной страницы
+
+src/types/index.ts — файл с типами
+
+src/main.ts — точка входа приложения
+
+src/scss/styles.scss — корневой файл стилей
+
+src/utils/constants.ts — файл с константами
+
+src/utils/utils.ts — файл с утилитами
+
+Установка и запуск
+
+Для установки и запуска проекта необходимо выполнить команды
+
+npm install
+npm run dev
+или
+
+yarn
+yarn dev
+Сборка
+
+npm run build
+или
+
+yarn build
+Интернет-магазин «Web-Larёk»
+«Web-Larёk» — это интернет-магазин с товарами для веб-разработчиков, где пользователи могут просматривать товары, добавлять их в корзину и оформлять заказы. Сайт предоставляет удобный интерфейс с модальными окнами для просмотра деталей товаров, управления корзиной и выбора способа оплаты, обеспечивая полный цикл покупки с отправкой заказов на сервер.
+
+Архитектура приложения
+Код приложения разделен на слои согласно парадигме MVP (Model-View-Presenter), которая обеспечивает четкое разделение ответственности между классами слоев Model и View. Каждый слой несет свой смысл и ответственность:
+
+Model — слой данных, отвечает за хранение и изменение данных.
+
+View — слой представления, отвечает за отображение данных на странице.
+
+Presenter — презентер содержит основную логику приложения и отвечает за связь представления и данных.
+
+Взаимодействие между классами обеспечивается использованием событийно-ориентированного подхода. Модели и Представления генерируют события при изменении данных или взаимодействии пользователя с приложением, а Презентер обрабатывает эти события, используя методы как Моделей, так и Представлений.
+
+Базовый код
+Класс Component<T>
+Является базовым классом для всех компонентов интерфейса. Класс является дженериком и принимает в переменной T тип данных, которые могут быть переданы в метод render для отображения.
+
+Конструктор:
+constructor(container: HTMLElement) — принимает ссылку на DOM элемент, за отображение которого он отвечает.
+
+Поля класса:
+
+container: HTMLElement — поле для хранения корневого DOM элемента компонента.
+
+Методы:
+
+render(data?: Partial<T>): HTMLElement — главный метод класса. Принимает данные для отображения, записывает их в поля класса и возвращает ссылку на DOM-элемент.
+
+setImage(element: HTMLImageElement, src: string, alt?: string): void — утилитарный метод для модификации DOM-элементов <img>.
+
+Класс Api
+Содержит базовую логику отправки запросов.
+
+Конструктор:
+constructor(baseUrl: string, options: RequestInit = {}) — принимает базовый адрес сервера и опциональный объект с заголовками запросов.
+
+Поля класса:
+
+baseUrl: string — базовый адрес сервера.
+
+options: RequestInit — объект с заголовками для запросов.
+
+Методы:
+
+get(uri: string): Promise<object> — выполняет GET-запрос на указанный ендпоинт, возвращает промис с объектом ответа.
+
+post(uri: string, data: object, method: ApiPostMethods = 'POST'): Promise<object> — отправляет POST-запрос (или другой метод, если переопределён) с данными в теле запроса.
+
+handleResponse(response: Response): Promise<object> — защищённый метод, проверяет ответ сервера и возвращает данные или отклоняет промис в случае ошибки.
+
+Класс EventEmitter
+Брокер событий, реализующий паттерн «Наблюдатель». Используется для связи слоёв.
+
+Конструктор: не принимает параметров.
+
+Поля:
+
+_events: Map<string | RegExp, Set<Function>> — коллекция подписок на события.
+
+Методы:
+
+on<T extends object>(event: EventName, callback: (data: T) => void): void — подписка на событие.
+
+emit<T extends object>(event: string, data?: T): void — инициализация события с передачей данных.
+
+trigger<T extends object>(event: string, context?: Partial<T>): (data: T) => void — возвращает функцию, при вызове которой генерируется указанное событие.
+
+Типы данных
+В приложении используются следующие интерфейсы и типы (описаны в src/types/index.ts):
+
+Товар (IProduct)
+
+typescript
+interface IProduct {
+  id: string;
+  description: string;
+  image: string;
+  title: string;
+  category: string;
+  price: number | null;
+}
+Покупатель (IBuyer)
+
+typescript
+interface IBuyer {
+  payment: TPayment | null;   // способ оплаты
+  email: string;
+  phone: string;
+  address: string;
+}
+Способ оплаты (TPayment)
+
+typescript
+type TPayment = 'card' | 'cash';
+Ошибки валидации (ValidationErrors)
+
+typescript
+type ValidationErrors = Partial<Record<keyof IBuyer, string>>;
+Данные для отправки заказа (IOrderData)
+
+typescript
+interface IOrderData {
+  payment: TPayment;
+  email: string;
+  phone: string;
+  address: string;
+  total: number;
+  items: string[];      // массив id товаров
+}
+Ответ сервера при успешном заказе (IOrderResult)
+
+typescript
+interface IOrderResult {
+  id: string;
+  total: number;
+}
+Ответ сервера при получении списка товаров (IProductList)
+
+typescript
+interface IProductList {
+  total: number;
+  items: IProduct[];
+}
+Модели данных
+Модели отвечают за хранение данных и бизнес-логику, связанную с их изменением. Они не зависят от представления и коммуникационного слоя.
+
+Класс Products (каталог товаров)
+Назначение:
+Хранит массив всех доступных товаров и выбранный для детального просмотра товар.
+
+Конструктор:
+constructor(events: IEvents) — принимает брокер событий для уведомления об изменениях.
+
+Поля:
+
+_items: IProduct[] — массив всех товаров.
+
+_selectedProduct: IProduct | null — товар, выбранный для просмотра.
+
+Методы:
+
+setItems(items: IProduct[]): void — сохраняет массив товаров и генерирует событие products:changed.
+
+getItems(): IProduct[] — возвращает все товары из каталога.
+
+getProductById(id: string): IProduct | undefined — находит товар по идентификатору.
+
+setSelectedProduct(product: IProduct): void — устанавливает выбранный товар и генерирует событие product:selected.
+
+getSelectedProduct(): IProduct | null — возвращает выбранный товар.
+
+Класс Basket (корзина)
+Назначение:
+Хранит товары, добавленные пользователем, и предоставляет методы для управления корзиной.
+
+Конструктор:
+constructor(events: IEvents) — принимает брокер событий.
+
+Поля:
+
+_items: IProduct[] — массив товаров в корзине.
+
+Методы:
+
+getItems(): IProduct[] — возвращает все товары в корзине.
+
+addItem(product: IProduct): void — добавляет товар, если его ещё нет, и генерирует basket:changed.
+
+removeItem(id: string): void — удаляет товар по id и генерирует basket:changed.
+
+clear(): void — очищает корзину и генерирует basket:changed.
+
+getTotalPrice(): number — возвращает общую стоимость (сумма цен).
+
+getCount(): number — возвращает количество товаров.
+
+contains(id: string): boolean — проверяет наличие товара по id.
+
+Класс Buyer (данные покупателя)
+Назначение:
+Хранит и валидирует данные, введённые пользователем в формах оформления заказа.
+
+Конструктор:
+constructor(events: IEvents) — принимает брокер событий.
+
+Поля:
+
+_payment: TPayment | null — выбранный способ оплаты.
+
+_address: string — адрес доставки.
+
+_email: string — электронная почта.
+
+_phone: string — номер телефона.
+
+Методы:
+
+setPayment(payment: TPayment): void — устанавливает способ оплаты и генерирует buyer:changed.
+
+setAddress(address: string): void — устанавливает адрес и генерирует buyer:changed.
+
+setEmail(email: string): void — устанавливает email и генерирует buyer:changed.
+
+setPhone(phone: string): void — устанавливает телефон и генерирует buyer:changed.
+
+getBuyerData(): { payment: TPayment; email: string; phone: string; address: string } — возвращает все данные покупателя для отправки на сервер.
+
+clear(): void — очищает все поля и генерирует buyer:changed.
+
+validate(): ValidationErrors — проверяет корректность заполнения всех полей. Возвращает объект с ошибками (пустой, если ошибок нет).
+
+Компоненты представления (View)
+Компоненты представления отвечают за отображение данных и взаимодействие с пользователем. Они не содержат бизнес-логики и только уведомляют о действиях пользователя через события. Все классы представления наследуются от базового класса Component<T>.
+
+Класс Modal
+Назначение: Управляет модальным окном: открытие, закрытие, установка содержимого.
+
+Конструктор: constructor(container: HTMLElement, events: IEvents)
+
+Поля:
+
+_content: HTMLElement — контейнер для содержимого модального окна (.modal__content).
+
+_closeButton: HTMLElement — кнопка закрытия.
+
+_events: IEvents — брокер событий.
+
+Методы:
+
+set content(value: HTMLElement): void — устанавливает содержимое модального окна.
+
+open(): void — открывает модальное окно (добавляет класс modal_active, блокирует скролл).
+
+close(): void — закрывает модальное окно.
+
+render(data: HTMLElement): HTMLElement — устанавливает содержимое и открывает окно, возвращает корневой элемент.
+
+get isOpen(): boolean — возвращает true, если модальное окно открыто.
+
+Генерируемые события:
+
+modal:open — при открытии.
+
+modal:close — при закрытии.
+
+Класс Card (абстрактный)
+Назначение: Базовый класс для всех видов карточек товара. Содержит общие поля и методы.
+
+Конструктор: protected constructor(container: HTMLElement, actions?: ICardActions)
+
+Поля:
+
+_title: HTMLElement
+
+_price: HTMLElement
+
+_category?: HTMLElement
+
+_image?: HTMLImageElement
+
+_button?: HTMLButtonElement
+
+_actions?: ICardActions — объект с колбэком onClick.
+
+Методы:
+
+set id(value: string): void
+
+get id(): string
+
+set title(value: string): void
+
+set price(value: number | null): void
+
+set category(value: string): void — устанавливает категорию и соответствующий модификатор.
+
+set image(value: string): void
+
+set buttonText(value: string): void
+
+set buttonDisabled(value: boolean): void
+
+Класс CatalogCard
+Назначение: Карточка товара для отображения в каталоге. Наследует Card. Вся карточка является кнопкой, при клике на которую вызывается actions.onClick.
+
+Конструктор: constructor(container: HTMLElement, actions?: ICardActions)
+
+Класс PreviewCard
+Назначение: Карточка товара для отображения в модальном окне с детальной информацией. Наследует Card.
+
+Поля:
+
+_description: HTMLElement
+
+Методы:
+
+set description(value: string): void
+
+Класс BasketCard
+Назначение: Карточка товара для отображения в корзине. Наследует Card.
+
+Поля:
+
+_index: HTMLElement — номер товара в списке.
+
+Методы:
+
+set index(value: number): void
+
+Класс Basket
+Назначение: Отображает корзину: список товаров, общую стоимость, кнопку оформления.
+
+Конструктор: constructor(container: HTMLElement, events: IEvents)
+
+Поля:
+
+_list: HTMLElement — контейнер списка (.basket__list).
+
+_totalPrice: HTMLElement — элемент общей стоимости (.basket__price).
+
+_orderButton: HTMLButtonElement — кнопка "Оформить".
+
+_events: IEvents
+
+Методы:
+
+set items(items: HTMLElement[]): void — отображает список карточек.
+
+set totalPrice(value: number): void — обновляет общую стоимость.
+
+set buttonDisabled(value: boolean): void — блокирует/разблокирует кнопку.
+
+render(data?: Partial<IBasketView>): HTMLElement — обновляет состояние корзины.
+
+Генерируемые события:
+
+order:create — при клике на кнопку "Оформить".
+
+Класс Form<T> (абстрактный)
+Назначение: Базовый класс для форм. Обрабатывает ввод и валидацию.
+
+Конструктор: protected constructor(container: HTMLFormElement, events: IEvents)
+
+Поля:
+
+_form: HTMLFormElement
+
+_submitButton: HTMLButtonElement
+
+_errors: HTMLElement — контейнер для ошибок.
+
+_events: IEvents
+
+Методы:
+
+set valid(value: boolean): void — активирует/деактивирует кнопку сабмита.
+
+set errors(value: string): void — выводит сообщение об ошибке.
+
+render(data?: Partial<T> & { valid?: boolean, errors?: string }): HTMLElement
+
+Генерируемые события: при изменении любого поля генерируется событие с именем [formName]:[fieldName], например order:address.
+
+Класс OrderForm
+Назначение: Форма первого шага оформления заказа (выбор оплаты и адрес). Наследует Form<IOrderForm>.
+
+Поля:
+
+_paymentButtons: HTMLButtonElement[] — кнопки выбора способа оплаты.
+
+Методы:
+
+set payment(value: TPayment): void — устанавливает активную кнопку оплаты.
+
+set address(value: string): void
+
+Генерируемые события:
+
+order:payment — при выборе способа оплаты.
+
+order:address — при изменении поля адреса.
+
+order:submit — при сабмите формы (кнопка "Далее").
+
+Класс ContactsForm
+Назначение: Форма второго шага оформления (email и телефон). Наследует Form<IContactsForm>.
+
+Методы:
+
+set email(value: string): void
+
+set phone(value: string): void
+
+Генерируемые события:
+
+contacts:email — при изменении email.
+
+contacts:phone — при изменении телефона.
+
+contacts:submit — при сабмите формы (кнопка "Оплатить").
+
+Класс Success
+Назначение: Отображает сообщение об успешной оплате.
+
+Конструктор: constructor(container: HTMLElement, actions: { onClick: () => void })
+
+Поля:
+
+_description: HTMLElement — описание с суммой списания.
+
+_closeButton: HTMLButtonElement
+
+Методы:
+
+set total(value: number): void — устанавливает сумму в описании.
+
+Генерируемые события: не генерирует, вызывает переданный колбэк при клике на кнопку.
+
+Класс Page
+Назначение: Управляет элементами главной страницы (счетчик корзины, каталог).
+
+Конструктор: constructor(container: HTMLElement, events: IEvents)
+
+Поля:
+
+_counter: HTMLElement — счетчик товаров.
+
+_gallery: HTMLElement — контейнер каталога.
+
+_basketButton: HTMLElement — кнопка открытия корзины.
+
+Методы:
+
+set counter(value: number): void
+
+set gallery(items: HTMLElement[]): void
+
+Генерируемые события:
+
+basket:open — при клике на иконку корзины.
+
+События приложения
+В приложении используются следующие события, которые обеспечивают взаимодействие между слоями:
+
+Событие	Источник	Описание
+products:changed	Products	Изменился список товаров в каталоге
+product:selected	Products	Выбран товар для просмотра
+basket:changed	Basket	Изменилось содержимое корзины
+basket:open	Page, Basket	Пользователь открыл корзину
+basket:render	Презентер	Обновить отображение корзины (если открыта)
+order:create	Basket	Нажата кнопка "Оформить"
+order:payment	OrderForm	Выбран способ оплаты
+order:address	OrderForm	Изменён адрес доставки
+order:submit	OrderForm	Отправлена форма первого шага
+contacts:email	ContactsForm	Изменён email
+contacts:phone	ContactsForm	Изменён телефон
+contacts:submit	ContactsForm	Отправлена форма контактов
+buyer:changed	Buyer	Изменились данные покупателя
+modal:open	Modal	Модальное окно открыто
+modal:close	Modal	Модальное окно закрыто
+Слой коммуникации
+Класс AppApi
+Назначение:
+Обеспечивает взаимодействие с сервером. Использует композицию: принимает в конструкторе объект, реализующий интерфейс IApi, и делегирует ему выполнение HTTP-запросов. Это соответствует принципу инверсии зависимостей.
+
+Конструктор:
+constructor(api: IApi) — принимает экземпляр, удовлетворяющий интерфейсу IApi (с методами get и post).
+
+Поля:
+
+_api: IApi — ссылка на объект для выполнения запросов.
+
+Методы:
+
+getProducts(): Promise<IProductList> — выполняет GET-запрос к эндпоинту /product/, возвращает список товаров.
+
+postOrder(order: IOrderData): Promise<IOrderResult> — выполняет POST-запрос к эндпоинту /order/ с данными заказа, возвращает результат (ID и итоговую сумму).
+
+Презентер
+Презентер реализован в файле src/main.ts. Он связывает модели, компоненты представления и API через события. Презентер подписывается на события от моделей и представлений, обрабатывает их и вызывает соответствующие методы для обновления данных и отображения. Весь код презентера написан в функциональном стиле с использованием замыканий, что позволяет сохранить простоту и читаемость приложения.
+
+Основные обязанности презентера:
+
+Инициализация всех компонентов и моделей.
+
+Подписка на события и организация их обработки.
+
+Управление потоком данных между моделями и представлениями.
+
+Обработка действий пользователя (открытие корзины, выбор товара, оформление заказа и т.д.).
+
+Взаимодействие с API для получения товаров и отправки заказов.
+
+Тестирование
+В src/main.ts создаются экземпляры всех моделей и AppApi, выполняются методы, а результаты выводятся в консоль с поясняющими комментариями. Это позволяет убедиться в корректной работе слоя данных и API до написания представления. В финальной версии приложения тестирование осуществляется через пользовательский интерфейс.
+
+Запуск проекта
+Установите зависимости:
+npm install
+
+Создайте в корне файл .env со строкой:
+VITE_API_ORIGIN=https://larek-api.nomoreparties.co
+
+Запустите режим разработки:
+npm run dev===== ./src/common.blocks/basket.scss =====
+@use "variables" as *;
+@use "mixins";
+
+.basket {
+  @include mixins.flex(column);
+  gap: 2rem;
+  height: 60vh;
+
+  &__list {
+    padding: 0 2rem 0 0;
+    margin: 0;
+    flex-grow: 1;
+    overflow-y: auto;
+  }
+  
+  &__list:not(:has(> *))::before {
+    content: 'Корзина пуста';
+    opacity: 0.3;
+    display: block;
+    text-align: left;
+    font-style: regular;
+    font-weight: 400;
+  }
+
+  &__item {
+    border-bottom: 1px solid $primary;
+    padding: 1.5rem 0;
+
+    &-index {
+      @include mixins.flex(row);
+      justify-content: center;
+      align-items: center;
+      font-size: 1.5rem;
+      width: 55px;
+      height: 55px;
+      border-radius: 50%;
+      background-color: $primary;
+      color: white;
+      margin-right: 1rem;
+    }
+
+    &-delete {
+      @include mixins.icon(2rem, 'trash');
+      @include mixins.link($hover, white);
+      opacity: 0.5;
+      margin-left: 4rem;
+    }
+  }
+}===== ./src/common.blocks/button.scss =====
+@use "variables" as *;
+@use "mixins";
+
+.button {
+  @include mixins.button($primary, white, $hover);
+  border: 0;
+
+  &_alt {
+    @include mixins.button(white, $primaryLight, $primaryLight);
+    border: $defaultBorder;
+    &:hover {
+      border: $hoverBorder;
+    }
+  }
+
+  &_alt-active {
+    @include mixins.button(white, $primaryLight, $primaryLight);
+    border: $hoverBorder;
+  }
+}===== ./src/common.blocks/card.scss =====
+@use 'variables' as *;
+@use 'mixins';
+
+.card {
+  @include mixins.flex(column);
+  border: 0;
+  border-radius: $defaultBorderRadius;
+  background-color: $primary;
+  color: white;
+  padding: $defaultPadding;
+  align-items: flex-start;
+
+  &_full {
+    flex-direction: row;
+    background-color: transparent;
+    align-items: center;
+
+    .card__title {
+      flex-grow: 0;
+    }
+  }
+
+  &_compact {
+    flex-direction: row;
+    background-color: transparent;
+    align-items: center;
+    border-radius: 0;
+
+    .card__title {
+      flex-grow: 1;
+    }
+  }
+
+  &__column {
+    @include mixins.flex(column);
+    align-items: flex-start;
+    height: 390px;
+  }
+
+  &__row {
+    @include mixins.flex(row);
+    align-items: center;
+    gap: $defaultPadding;
+  }
+
+  &__image {
+    height: 390px;
+    aspect-ratio: 1;
+    margin: 3.75rem;
+    align-self: center;
+  }
+  &__title {
+    font-size: $titleFontSize;
+    font-weight: 500;
+    margin: 0;
+    flex-grow: 1;
+  }
+  &__text {
+    text-align: left;
+    flex-grow: 1;
+  }
+  &__category {
+    padding: 0.5rem 1.25rem;
+    border-radius: 2.5rem;
+    margin-bottom: 12px;
+    color: $primary;
+
+    &_soft {
+      background-color: $category1;
+    }
+    &_hard {
+      background-color: $category5;
+    }
+    &_other {
+      background-color: $category2;
+    }
+    &_additional {
+      background-color: $category3;
+    }
+    &_button {
+      background-color: $category4;
+    }
+  }
+  &__action {
+  }
+  &__price {
+  }
+}
+===== ./src/common.blocks/form.scss =====
+@use "variables" as *;
+@use "mixins";
+@use 'sass:color';
+
+.form {
+  @include mixins.flex(column);
+  gap: 1.5rem;
+  border-radius: 3rem;
+
+  &__label {
+    flex-grow: 1;
+  }
+
+  &__input {
+    background: transparent;
+    color: white;
+    border: $defaultBorder;
+    border-radius: 1.5rem;
+    padding: 1rem;
+    font-size: 1.4rem;
+    width: 100%;
+    box-sizing: border-box;
+    outline-color: $secondary;
+
+    &:focus {
+      outline-style: solid;
+    }
+
+    &:invalid {
+      border-color: $error;
+      outline-color: $error;
+    }
+
+    &::placeholder {
+      color: color.adjust($primaryLight, $lightness: 23%);
+    }
+  }
+}===== ./src/common.blocks/gallery.scss =====
+@use "variables" as *;
+@use "mixins";
+
+.gallery {
+  @include mixins.container;
+  @include mixins.grid(600px, 24px);
+
+  &__item {
+    border: none;
+    border-radius: $defaultBorderRadius;
+    @include mixins.selectable($secondary, 2px, $primaryLight);
+
+    &::after {
+      border-radius: 0.8rem;
+    }
+  }
+}===== ./src/common.blocks/header.scss =====
+@use "variables" as *;
+@use "mixins";
+
+.header {
+  height: $headerHeight;
+  background-color: $primary;
+
+  &__container {
+    @include mixins.container(45px,45px);
+    @include mixins.flex(row);
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  &__logo {
+    height: $headerElementsSize;
+  }
+
+  &__logo {
+    &-image {
+      display: block;
+      height: 100%;
+    }
+  }
+
+  &__basket {
+    //@include mixins.icon($headerElementsSize, 'basket-2');
+    @include mixins.link($primary, $hover);
+    background-image: url(../images/shopping_cart.svg);
+    height: 58px;
+    width: 58px;
+    border: none;
+    position: relative;
+    cursor: pointer;
+
+    &-counter {
+      position: absolute;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      top: 0;
+      right: -0.2rem;
+      width: 0.8rem;
+      height: 0.8rem;
+      font-size: 0.5rem;
+      background-color: $category1;
+      color: $background;
+      border-radius: 100%;
+      font-weight: 600;
+    }
+  }
+}===== ./src/common.blocks/modal.scss =====
+@use "variables" as *;
+@use "mixins";
+
+.modal {
+  @include mixins.sublayer;
+  // height: max-content;
+  display: none;
+  justify-content: center;
+  background-color: $overlayBackground;
+  z-index: 100;
+  padding-top: 5vh;
+  padding-bottom: 5vh;
+  box-sizing: border-box;
+
+  &_active {
+    display: flex;
+  }
+
+  &__container {
+    @include mixins.container;
+    @include mixins.flex(column);
+    gap: $defaultPadding;
+    background-color: $background;
+    // min-height: 90vmin;
+    border-radius: 3rem;
+    box-sizing: border-box;
+    position: relative;
+  }
+
+  &__content {
+    flex-grow: 1;
+  }
+
+  &__title {
+    margin: 0;
+    font-size: 1.5rem;
+    font-weight: 400;
+  }
+
+  &__actions {
+    @include mixins.flex(row);
+    align-items: center;
+    gap: 2rem;
+  }
+
+  &__close {
+    position: absolute;
+    top: calc(#{$defaultPadding} / 2);
+    right: calc(#{$defaultPadding} / 2);
+    @include mixins.icon(2rem, 'close');
+    @include mixins.link(white, $hover);
+  }
+
+  &__footer {
+    @include mixins.flex(row);
+    align-items: center;
+    gap: 2rem;
+  }
+
+  &__message {
+    white-space:nowrap;
+    max-width: 60%;
+    text-overflow: ellipsis;
+    overflow: hidden;
+
+    &_error {
+      color: $error;
+    }
+  }
+}===== ./src/common.blocks/order-success.scss =====
+@use "variables" as *;
+@use "mixins";
+
+.order-success {
+  @include mixins.flex(column);
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  gap: 1rem;
+
+  &::before {
+    content: " ";
+    @include mixins.background('../images/Subtract.png');
+    width: 256px;
+    height: 256px;
+  }
+
+  &__close {
+    margin-top: 2rem;
+  }
+}===== ./src/common.blocks/order.scss =====
+@use "variables" as *;
+@use "mixins";
+
+.order {
+  @include mixins.flex(column);
+  gap: 4rem;
+  margin-bottom: 4rem;
+
+  &__field {
+    @include mixins.flex(column);
+    gap: 1.5rem;
+  }
+
+  &__buttons {
+    @include mixins.flex(row);
+    gap: 1.5rem;
+  }
+}===== ./src/common.blocks/page.scss =====
+@use "variables" as *;
+
+html, body.page {
+	height: 100%;
+	font-family: $font;
+	font-size: $baseFontSize;
+	color: $baseFontColor;
+	background: $background;
+}
+
+.page__wrapper {
+	width: 100%;
+}
+
+.page:has(.modal_active) {
+	overflow: hidden;
+}===== ./src/components/AppApi.ts =====
+import { IApi, IProductList, IOrderData, IOrderResult } from '../types';
+
+export class AppApi {
+    private _api: IApi;
+
+    constructor(api: IApi) {
+        this._api = api;
+    }
+
+    getProducts(): Promise<IProductList> {
+        return this._api.get<IProductList>('/product/');
+    }
+
+    postOrder(order: IOrderData): Promise<IOrderResult> {
+        return this._api.post<IOrderResult>('/order/', order);
+    }
+}
+===== ./src/components/base/Api.ts =====
+export type ApiPostMethods = 'POST' | 'PUT' | 'DELETE';
+
+export class Api {
+    readonly baseUrl: string;
+    protected options: RequestInit;
+
+    constructor(baseUrl: string, options: RequestInit = {}) {
+        this.baseUrl = baseUrl;
+        this.options = {
+            headers: {
+                'Content-Type': 'application/json',
+                ...(options.headers as object ?? {})
+            }
+        };
+    }
+
+    protected handleResponse<T>(response: Response): Promise<T> {
+        if (response.ok) return response.json();
+        else return response.json()
+            .then(data => Promise.reject(data.error ?? response.statusText));
+    }
+
+    get<T extends object>(uri: string) {
+        return fetch(this.baseUrl + uri, {
+            ...this.options,
+            method: 'GET'
+        }).then(this.handleResponse<T>);
+    }
+
+    post<T extends object>(uri: string, data: object, method: ApiPostMethods = 'POST') {
+        return fetch(this.baseUrl + uri, {
+            ...this.options,
+            method,
+            body: JSON.stringify(data)
+        }).then(this.handleResponse<T>);
+    }
+}
+===== ./src/components/base/Component.ts =====
+export abstract class Component<T> {
+    protected constructor(protected readonly container: HTMLElement) {
+
+    }
+
+
+    protected setImage(element: HTMLImageElement, src: string, alt?: string) {
+        if (element) {
+            element.src = src;
+            if (alt) {
+                element.alt = alt;
+            }
+        }
+    }
+
+    render(data?: Partial<T>): HTMLElement {
+        Object.assign(this as object, data ?? {});
+        return this.container;
+    }
+}
+===== ./src/components/base/Events.ts =====
+type EventName = string | RegExp;
+type Subscriber = Function;
+type EmitterEvent = {
+    eventName: string,
+    data: unknown
+};
+
+export interface IEvents {
+    on<T extends object>(event: EventName, callback: (data: T) => void): void;
+    emit<T extends object>(event: string, data?: T): void;
+    trigger<T extends object>(event: string, context?: Partial<T>): (data: T) => void;
+}
+
+export class EventEmitter implements IEvents {
+    _events: Map<EventName, Set<Subscriber>>;
+
+    constructor() {
+        this._events = new Map<EventName, Set<Subscriber>>();
+    }
+
+    on<T extends object>(eventName: EventName, callback: (event: T) => void) {
+        if (!this._events.has(eventName)) {
+            this._events.set(eventName, new Set<Subscriber>());
+        }
+        this._events.get(eventName)?.add(callback);
+    }
+
+    off(eventName: EventName, callback: Subscriber) {
+        if (this._events.has(eventName)) {
+            this._events.get(eventName)!.delete(callback);
+            if (this._events.get(eventName)?.size === 0) {
+                this._events.delete(eventName);
+            }
+        }
+    }
+
+    emit<T extends object>(eventName: string, data?: T) {
+        this._events.forEach((subscribers, name) => {
+            if (name === '*') subscribers.forEach(callback => callback({
+                eventName,
+                data
+            }));
+            if (name instanceof RegExp && name.test(eventName) || name === eventName) {
+                subscribers.forEach(callback => callback(data));
+            }
+        });
+    }
+
+    onAll(callback: (event: EmitterEvent) => void) {
+        this.on("*", callback);
+    }
+
+    offAll() {
+        this._events = new Map<string, Set<Subscriber>>();
+    }
+
+    trigger<T extends object>(eventName: string, context?: Partial<T>) {
+        return (event: object = {}) => {
+            this.emit(eventName, {
+                ...(event || {}),
+                ...(context || {})
+            });
+        };
+    }
+}
+
+===== ./src/components/models/Basket.ts =====
+import { IProduct } from '../../types';
+import { IEvents } from '../base/Events';
+
+export class Basket {
+    private _items: IProduct[] = [];
+
+    constructor(protected events: IEvents) {}
+
+    getItems(): IProduct[] {
+        return this._items;
+    }
+
+    addItem(product: IProduct): void {
+        if (!this.contains(product.id)) {
+            this._items.push(product);
+            this.events.emit('basket:changed');
+        }
+    }
+
+    removeItem(id: string): void {
+        this._items = this._items.filter(item => item.id !== id);
+        this.events.emit('basket:changed');
+    }
+
+    clear(): void {
+        this._items = [];
+        this.events.emit('basket:changed');
+    }
+
+    getTotalPrice(): number {
+        return this._items.reduce((sum, item) => sum + (item.price ?? 0), 0);
+    }
+
+    getCount(): number {
+        return this._items.length;
+    }
+
+    contains(id: string): boolean {
+        return this._items.some(item => item.id === id);
+    }
+}===== ./src/components/models/Buyer.ts =====
+import { IBuyer, TPayment, ValidationErrors } from '../../types';
+import { IEvents } from '../base/Events';
+
+export class Buyer {
+    private _payment: TPayment | null = null;
+    private _address: string = '';
+    private _email: string = '';
+    private _phone: string = '';
+
+    constructor(protected events: IEvents) {}
+
+    setPayment(payment: TPayment): void {
+        this._payment = payment;
+        this.events.emit('buyer:changed');
+    }
+
+    setAddress(address: string): void {
+        this._address = address;
+        this.events.emit('buyer:changed');
+    }
+
+    setEmail(email: string): void {
+        this._email = email;
+        this.events.emit('buyer:changed');
+    }
+
+    setPhone(phone: string): void {
+        this._phone = phone;
+        this.events.emit('buyer:changed');
+    }
+
+    getBuyerData(): IBuyer {
+        return {
+            payment: this._payment,
+            email: this._email,
+            phone: this._phone,
+            address: this._address,
+        };
+    }
+
+    clear(): void {
+        this._payment = null;
+        this._address = '';
+        this._email = '';
+        this._phone = '';
+        this.events.emit('buyer:changed');
+    }
+
+    validate(): ValidationErrors {
+        const errors: ValidationErrors = {};
+        if (!this._payment) errors.payment = 'Не выбран способ оплаты';
+        if (!this._address.trim()) errors.address = 'Введите адрес доставки';
+        if (!this._email.trim()) errors.email = 'Укажите email';
+        if (!this._phone.trim()) errors.phone = 'Укажите телефон';
+        return errors;
+    }
+}===== ./src/components/models/Products.ts =====
+import { IProduct } from '../../types';
+import { IEvents } from '../base/Events';
+
+export class Products {
+    private _items: IProduct[] = [];
+    private _selectedProduct: IProduct | null = null;
+
+    constructor(protected events: IEvents) {}
+
+    setItems(items: IProduct[]): void {
+        this._items = items;
+        this.events.emit('products:changed');
+    }
+
+    getItems(): IProduct[] {
+        return this._items;
+    }
+
+    getProductById(id: string): IProduct | undefined {
+        return this._items.find(item => item.id === id);
+    }
+
+    setSelectedProduct(product: IProduct): void {
+        this._selectedProduct = product;
+        this.events.emit('product:selected');
+    }
+
+    getSelectedProduct(): IProduct | null {
+        return this._selectedProduct;
+    }
+}===== ./src/components/view/Basket.ts =====
+import { Component } from '../base/Component';
+import { ensureElement } from '../../utils/utils';
+import { IEvents } from '../base/Events';
+
+export interface IBasketView {
+    items: HTMLElement[];
+    totalPrice: number;
+    buttonDisabled: boolean;
+}
+
+export class Basket extends Component<IBasketView> {
+    protected _list: HTMLElement;
+    protected _totalPrice: HTMLElement;
+    protected _orderButton: HTMLButtonElement;
+
+    constructor(container: HTMLElement, protected events: IEvents) {
+        super(container);
+        this._list = ensureElement<HTMLElement>('.basket__list', container);
+        this._totalPrice = ensureElement<HTMLElement>('.basket__price', container);
+        this._orderButton = ensureElement<HTMLButtonElement>('.basket__button', container);
+
+        this._orderButton.addEventListener('click', () => {
+            this.events.emit('basket:submit');
+        });
+    }
+
+    set items(value: HTMLElement[]) {
+        this._list.replaceChildren(...value);
+    }
+
+    set totalPrice(value: number) {
+        this._totalPrice.textContent = `${value} синапсов`;
+    }
+
+    set buttonDisabled(value: boolean) {
+        this._orderButton.disabled = value;
+    }
+}===== ./src/components/view/BasketCard.ts =====
+import { Card, ICard, ICardActions } from './Card';
+import { ensureElement } from '../../utils/utils';
+
+export interface IBasketCard extends ICard {
+    index: number;
+}
+
+export class BasketCard extends Card<IBasketCard> {
+    protected _index: HTMLElement;
+    protected _deleteButton: HTMLButtonElement;
+
+    constructor(container: HTMLElement, actions?: ICardActions) {
+        super(container, actions);
+        this._index = ensureElement<HTMLElement>('.basket__item-index', container);
+        this._deleteButton = ensureElement<HTMLButtonElement>('.basket__item-delete', container);
+
+        this._deleteButton.addEventListener('click', (evt) => {
+            evt.stopPropagation();
+            if (actions?.onClick) actions.onClick(evt);
+        });
+    }
+
+    set index(value: number) {
+        this._index.textContent = String(value);
+    }
+}===== ./src/components/view/Card.ts =====
+import { Component } from '../base/Component';
+import { ensureElement } from '../../utils/utils';
+
+export interface ICard {
+    title: string;
+    price: number | null;
+}
+
+export interface ICardActions {
+    onClick: (event: MouseEvent) => void;
+}
+
+export abstract class Card<T extends ICard = ICard> extends Component<T> {
+    protected _title: HTMLElement;
+    protected _price: HTMLElement;
+
+    constructor(container: HTMLElement, protected actions?: ICardActions) {
+        super(container);
+        this._title = ensureElement<HTMLElement>('.card__title', container);
+        this._price = ensureElement<HTMLElement>('.card__price', container);
+    }
+
+    set title(value: string) {
+        this._title.textContent = value;
+    }
+
+    set price(value: number | null) {
+        this._price.textContent = value !== null ? `${value} синапсов` : 'Бесценно';
+    }
+}===== ./src/components/view/CatalogCard.ts =====
+import { Card, ICard } from './Card';
+import { ensureElement } from '../../utils/utils';
+import { categoryMap } from '../../utils/constants';
+import { ICardActions } from './Card';
+
+export interface ICatalogCard extends ICard {
+    category: string;
+    image: string;
+}
+
+export class CatalogCard extends Card<ICatalogCard> {
+    protected _category: HTMLElement;
+    protected _image: HTMLImageElement;
+
+    constructor(container: HTMLElement, actions?: ICardActions) {
+        super(container, actions);
+        this._category = ensureElement<HTMLElement>('.card__category', container);
+        this._image = ensureElement<HTMLImageElement>('.card__image', container);
+
+        this.container.addEventListener('click', (evt) => {
+            if (actions?.onClick) {
+                actions.onClick(evt);
+            }
+        });
+    }
+
+    set category(value: string) {
+        this._category.textContent = value;
+        const mod = categoryMap[value as keyof typeof categoryMap];
+        if (mod) {
+            this._category.className = `card__category ${mod}`;
+        }
+    }
+
+    set image(value: string) {
+        this._image.src = value;
+    }
+}===== ./src/components/view/ContactsForm.ts =====
+import { Form } from './Form';
+import { ensureElement } from '../../utils/utils';
+import { IEvents } from '../base/Events';
+
+export interface IContactsForm {
+    email: string;
+    phone: string;
+}
+
+export class ContactsForm extends Form<IContactsForm> {
+    protected _emailInput: HTMLInputElement;
+    protected _phoneInput: HTMLInputElement;
+
+    constructor(container: HTMLFormElement, events: IEvents) {
+        super(container, events);
+        this._emailInput = ensureElement<HTMLInputElement>('input[name="email"]', container);
+        this._phoneInput = ensureElement<HTMLInputElement>('input[name="phone"]', container);
+    }
+
+    set email(value: string) {
+        this._emailInput.value = value;
+    }
+
+    set phone(value: string) {
+        this._phoneInput.value = value;
+    }
+}===== ./src/components/view/Form.ts =====
+import { Component } from '../base/Component';
+import { IEvents } from '../base/Events';
+import { ensureElement } from '../../utils/utils';
+
+export abstract class Form<T> extends Component<T> {
+    protected _form: HTMLFormElement;
+    protected _submitButton: HTMLButtonElement;
+    protected _errors: HTMLElement;
+
+    constructor(container: HTMLFormElement, protected events: IEvents) {
+        super(container);
+        this._form = container;
+        this._submitButton = ensureElement<HTMLButtonElement>('button[type=submit]', container);
+        this._errors = ensureElement<HTMLElement>('.form__errors', container);
+
+        this._form.addEventListener('submit', (evt) => {
+            evt.preventDefault();
+            this.events.emit(`${this._form.name}:submit`);
+        });
+
+        this._form.addEventListener('input', (evt) => {
+            const target = evt.target as HTMLInputElement;
+            const field = target.name as keyof T;
+            const value = target.value;
+            this.events.emit(`${this._form.name}:${String(field)}`, { field, value });
+        });
+    }
+
+    set valid(value: boolean) {
+        this._submitButton.disabled = !value;
+    }
+
+    set errors(value: string) {
+        this._errors.textContent = value;
+    }
+
+    render(data?: Partial<T> & { valid?: boolean; errors?: string }): HTMLElement {
+        return super.render(data);
+    }
+}===== ./src/components/view/Gallery.ts =====
+import { Component } from '../base/Component';
+
+export interface IGallery {
+    items: HTMLElement[];
+}
+
+export class Gallery extends Component<IGallery> {
+    protected _container: HTMLElement;
+
+    constructor(container: HTMLElement) {
+        super(container);
+        this._container = container;
+    }
+
+    set items(value: HTMLElement[]) {
+        this._container.replaceChildren(...value);
+    }
+}===== ./src/components/view/Header.ts =====
+import { Component } from '../base/Component';
+import { ensureElement } from '../../utils/utils';
+import { IEvents } from '../base/Events';
+
+export interface IHeader {
+    counter: number;
+}
+
+export class Header extends Component<IHeader> {
+    protected _counter: HTMLElement;
+    protected _basketButton: HTMLElement;
+
+    constructor(container: HTMLElement, protected events: IEvents) {
+        super(container);
+        this._counter = ensureElement<HTMLElement>('.header__basket-counter', container);
+        this._basketButton = ensureElement<HTMLElement>('.header__basket', container);
+
+        this._basketButton.addEventListener('click', () => {
+            this.events.emit('basket:open');
+        });
+    }
+
+    set counter(value: number) {
+        this._counter.textContent = String(value);
+    }
+}===== ./src/components/view/Modal.ts =====
+// src/components/view/Modal.ts
+import { Component } from '../base/Component';
+import { IEvents } from '../base/Events';
+import { ensureElement } from '../../utils/utils';
+
+export interface IModal {
+    content: HTMLElement;
+}
+
+export class Modal extends Component<IModal> {
+    protected _content: HTMLElement;
+    protected _closeButton: HTMLElement;
+
+    constructor(container: HTMLElement, protected events: IEvents) {
+        super(container);
+        this._content = ensureElement<HTMLElement>('.modal__content', container);
+        this._closeButton = ensureElement<HTMLElement>('.modal__close', container);
+
+        this._closeButton.addEventListener('click', this.close.bind(this));
+        this.container.addEventListener('click', this._onOverlayClick.bind(this));
+    }
+
+    private _onOverlayClick(event: MouseEvent) {
+        if (event.target === this.container) {
+            this.close();
+        }
+    }
+
+    set content(value: HTMLElement) {
+        this._content.replaceChildren(value);
+    }
+
+    open() {
+        this.container.classList.add('modal_active');
+    }
+
+    close() {
+        this.container.classList.remove('modal_active');
+    }
+
+    render(data: Partial<IModal>): HTMLElement {
+        super.render(data);
+        this.open();
+        return this.container;
+    }
+}===== ./src/components/view/OrderForm.ts =====
+import { Form } from './Form';
+import { ensureAllElements, ensureElement } from '../../utils/utils';
+import { TPayment } from '../../types';
+import { IEvents } from '../base/Events';
+
+export interface IOrderForm {
+    payment: TPayment | null;
+    address: string;
+}
+
+export class OrderForm extends Form<IOrderForm> {
+    protected _paymentButtons: HTMLButtonElement[];
+    protected _addressInput: HTMLInputElement;
+
+    constructor(container: HTMLFormElement, events: IEvents) {
+        super(container, events);
+        this._paymentButtons = ensureAllElements<HTMLButtonElement>('.button_alt', container);
+        this._addressInput = ensureElement<HTMLInputElement>('input[name="address"]', container);
+
+        this._paymentButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const payment = button.name as TPayment;
+                this.events.emit('order:payment', { payment });
+            });
+        });
+    }
+
+    set payment(value: TPayment | null) {
+        this._paymentButtons.forEach(button => {
+            button.classList.toggle('button_alt-active', button.name === value);
+        });
+    }
+
+    set address(value: string) {
+        this._addressInput.value = value;
+    }
+}===== ./src/components/view/PreviewCard.ts =====
+import { Card, ICard } from './Card';
+import { ensureElement } from '../../utils/utils';
+import { categoryMap } from '../../utils/constants';
+import { IEvents } from '../base/Events';
+
+export interface IPreviewCard extends ICard {
+    category: string;
+    image: string;
+    description: string;
+    buttonText: string;
+    buttonDisabled: boolean;
+}
+
+export class PreviewCard extends Card<IPreviewCard> {
+    protected _category: HTMLElement;
+    protected _image: HTMLImageElement;
+    protected _description: HTMLElement;
+    protected _button: HTMLButtonElement;
+
+    constructor(container: HTMLElement, protected events: IEvents) {
+        super(container);
+        this._category = ensureElement<HTMLElement>('.card__category', container);
+        this._image = ensureElement<HTMLImageElement>('.card__image', container);
+        this._description = ensureElement<HTMLElement>('.card__text', container);
+        this._button = ensureElement<HTMLButtonElement>('.card__button', container);
+
+        this._button.addEventListener('click', () => {
+            this.events.emit('preview:action');
+        });
+    }
+
+    set category(value: string) {
+        this._category.textContent = value;
+        const mod = categoryMap[value as keyof typeof categoryMap];
+        if (mod) {
+            this._category.className = `card__category ${mod}`;
+        }
+    }
+
+    set image(value: string) {
+        this._image.src = value;
+    }
+
+    set description(value: string) {
+        this._description.textContent = value;
+    }
+
+    set buttonText(value: string) {
+        this._button.textContent = value;
+    }
+
+    set buttonDisabled(value: boolean) {
+        this._button.disabled = value;
+    }
+}===== ./src/components/view/Success.ts =====
+import { Component } from '../base/Component';
+import { ensureElement } from '../../utils/utils';
+import { IEvents } from '../base/Events';
+
+export interface ISuccessData {
+    total: number;
+}
+
+export class Success extends Component<ISuccessData> {
+    protected _description: HTMLElement;
+    protected _closeButton: HTMLButtonElement;
+
+    constructor(container: HTMLElement, protected events: IEvents) {
+        super(container);
+        this._description = ensureElement<HTMLElement>('.order-success__description', container);
+        this._closeButton = ensureElement<HTMLButtonElement>('.order-success__close', container);
+
+        this._closeButton.addEventListener('click', () => {
+            this.events.emit('success:close');
+        });
+    }
+
+    set total(value: number) {
+        this._description.textContent = `Списано ${value} синапсов`;
+    }
+}===== ./src/main.ts =====
+import './scss/styles.scss';
+
+import { Products } from './components/models/Products';
+import { Basket } from './components/models/Basket';
+import { Buyer } from './components/models/Buyer';
+
+import { Modal } from './components/view/Modal';
+import { Header } from './components/view/Header';
+import { Gallery } from './components/view/Gallery';
+import { CatalogCard } from './components/view/CatalogCard';
+import { PreviewCard } from './components/view/PreviewCard';
+import { BasketCard } from './components/view/BasketCard';
+import { Basket as BasketView } from './components/view/Basket';
+import { OrderForm } from './components/view/OrderForm';
+import { ContactsForm } from './components/view/ContactsForm';
+import { Success } from './components/view/Success';
+
+import { Api } from './components/base/Api';
+import { AppApi } from './components/AppApi';
+
+import { cloneTemplate, ensureElement } from './utils/utils';
+import { API_URL, CDN_URL } from './utils/constants';
+import { EventEmitter } from './components/base/Events';
+import { IOrderData, TPayment } from './types';
+
+const events = new EventEmitter();
+
+const productsModel = new Products(events);
+const basketModel = new Basket(events);
+const buyerModel = new Buyer(events);
+
+const api = new Api(API_URL);
+const appApi = new AppApi(api);
+
+const catalogTemplate = ensureElement<HTMLTemplateElement>('#card-catalog');
+const previewTemplate = ensureElement<HTMLTemplateElement>('#card-preview');
+const basketTemplate = ensureElement<HTMLTemplateElement>('#card-basket');
+const basketViewTemplate = ensureElement<HTMLTemplateElement>('#basket');
+const orderTemplate = ensureElement<HTMLTemplateElement>('#order');
+const contactsTemplate = ensureElement<HTMLTemplateElement>('#contacts');
+const successTemplate = ensureElement<HTMLTemplateElement>('#success');
+
+const modalContainer = ensureElement<HTMLElement>('#modal-container');
+const modal = new Modal(modalContainer, events);
+
+const headerElement = document.querySelector('.header');
+if (!headerElement) throw new Error('Header element not found');
+const header = new Header(headerElement as HTMLElement, events);
+
+const galleryElement = document.querySelector('.gallery');
+if (!galleryElement) throw new Error('Gallery element not found');
+const gallery = new Gallery(galleryElement as HTMLElement);
+
+const basketView = new BasketView(cloneTemplate(basketViewTemplate), events);
+const orderForm = new OrderForm(cloneTemplate(orderTemplate), events);
+const contactsForm = new ContactsForm(cloneTemplate(contactsTemplate), events);
+const successView = new Success(cloneTemplate(successTemplate), events);
+
+let previewCard: PreviewCard | null = null;
+
+basketModel.clear();
+buyerModel.clear();
+
+appApi.getProducts()
+    .then(data => productsModel.setItems(data.items))
+    .catch(err => console.error('Ошибка загрузки товаров:', err));
+
+events.on('products:changed', () => {
+    const items = productsModel.getItems();
+    const cards = items.map(item => {
+        const card = new CatalogCard(cloneTemplate(catalogTemplate), {
+            onClick: () => {
+                productsModel.setSelectedProduct(item);
+            }
+        });
+        card.render({
+            title: item.title,
+            price: item.price,
+            category: item.category,
+            image: CDN_URL + item.image,
+        });
+        return card.render();
+    });
+    gallery.items = cards;
+});
+
+events.on('product:selected', () => {
+    const item = productsModel.getSelectedProduct();
+    if (!item) return;
+
+    if (!previewCard) {
+        previewCard = new PreviewCard(cloneTemplate(previewTemplate), events);
+    }
+
+    const isInBasket = basketModel.contains(item.id);
+    let buttonText = 'В корзину';
+    let buttonDisabled = false;
+
+    if (item.price === null) {
+        buttonDisabled = true;
+        buttonText = 'Недоступно';
+    } else if (isInBasket) {
+        buttonText = 'Удалить из корзины';
+    }
+
+    previewCard.render({
+        title: item.title,
+        price: item.price,
+        category: item.category,
+        image: CDN_URL + item.image,
+        description: item.description,
+        buttonText,
+        buttonDisabled,
+    });
+
+    modal.render({ content: previewCard.render() });
+});
+
+events.on('preview:action', () => {
+    const item = productsModel.getSelectedProduct();
+    if (!item) return;
+
+    if (basketModel.contains(item.id)) {
+        basketModel.removeItem(item.id);
+    } else {
+        basketModel.addItem(item);
+    }
+    modal.close();
+    events.emit('product:selected');
+});
+
+events.on('basket:changed', () => {
+    const items = basketModel.getItems();
+    header.counter = items.length;
+
+    const cards = items.map((item, index) => {
+        const card = new BasketCard(cloneTemplate(basketTemplate), {
+            onClick: () => {
+                basketModel.removeItem(item.id);
+            }
+        });
+        card.render({
+            title: item.title,
+            price: item.price,
+            index: index + 1,
+        });
+        return card.render();
+    });
+
+    basketView.items = cards;
+    basketView.totalPrice = basketModel.getTotalPrice();
+    basketView.buttonDisabled = items.length === 0;
+});
+
+events.on('basket:open', () => {
+    basketView.buttonDisabled = basketModel.getCount() === 0;
+    modal.render({ content: basketView.render() });
+});
+
+events.on('basket:submit', () => {
+    const buyerData = buyerModel.getBuyerData();
+    orderForm.payment = buyerData.payment;
+    orderForm.address = buyerData.address;
+    modal.render({ content: orderForm.render() });
+});
+
+events.on('buyer:changed', () => {
+    const data = buyerModel.getBuyerData();
+    const errors = buyerModel.validate();
+
+    orderForm.payment = data.payment;
+    orderForm.address = data.address;
+    contactsForm.email = data.email;
+    contactsForm.phone = data.phone;
+
+    const orderErrors = [];
+    if (errors.payment) orderErrors.push(errors.payment);
+    if (errors.address) orderErrors.push(errors.address);
+    orderForm.valid = !errors.payment && !errors.address;
+    orderForm.errors = orderErrors.join('; ');
+
+    const contactsErrors = [];
+    if (errors.email) contactsErrors.push(errors.email);
+    if (errors.phone) contactsErrors.push(errors.phone);
+    contactsForm.valid = !errors.email && !errors.phone;
+    contactsForm.errors = contactsErrors.join('; ');
+});
+
+events.on('order:payment', (data: { payment: TPayment }) => {
+    buyerModel.setPayment(data.payment);
+});
+
+events.on('order:address', (data: { value: string }) => {
+    buyerModel.setAddress(data.value);
+});
+
+events.on('order:submit', () => {
+    const buyerData = buyerModel.getBuyerData();
+    contactsForm.email = buyerData.email;
+    contactsForm.phone = buyerData.phone;
+    modal.render({ content: contactsForm.render() });
+});
+
+events.on('contacts:email', (data: { value: string }) => {
+    buyerModel.setEmail(data.value);
+});
+
+events.on('contacts:phone', (data: { value: string }) => {
+    buyerModel.setPhone(data.value);
+});
+
+events.on('contacts:submit', () => {
+    const buyer = buyerModel.getBuyerData();
+    const orderData: IOrderData = {
+        payment: buyer.payment!,
+        email: buyer.email,
+        phone: buyer.phone,
+        address: buyer.address,
+        total: basketModel.getTotalPrice(),
+        items: basketModel.getItems().map(item => item.id),
+    };
+
+    appApi.postOrder(orderData)
+        .then(result => {
+            basketModel.clear();
+            buyerModel.clear();
+            header.counter = 0;
+            basketView.buttonDisabled = true;
+            successView.total = result.total;
+            modal.render({ content: successView.render() });
+        })
+        .catch(err => {
+            console.error('Ошибка отправки заказа:', err);
+            contactsForm.errors = 'Не удалось отправить заказ. Попробуйте позже.';
+        });
+});
+
+events.on('success:close', () => {
+    modal.close();
+});===== ./src/pages/index.html =====
+<!doctype html>
+<html class="no-js" lang="ru">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="theme-color" content="#000000" />
+	<link rel="icon" href="/favicon.ico" />
+	<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+	<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+	<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+	<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#000000">
+	<meta name="msapplication-TileColor" content="#000000">
+
+	<title>WebLarek</title>
+	<meta name="description" content="">
+</head>
+<body class="page">
+	<div class="page__wrapper">
+		<header class="header">
+			<div class="header__container">
+				<a class="header__logo" href="/">
+					<img class="header__logo-image" src="<%=require('../images/logo.svg')%>" alt="Web-Larek! logo" />
+				</a>
+				<button class="header__basket">
+					<span class="header__basket-counter">0</span>
+				</button>
+			</div>
+		</header>
+
+		<main class="gallery"></main>
+	</div>
+
+	<div class="modal" id="modal-container">
+		<div class="modal__container">
+			<button class="modal__close" aria-label="закрыть"></button>
+			<div class="modal__content">
+
+			</div>
+		</div>
+	</div>
+
+	<template id="success">
+		<div class="order-success">
+			<h2 class="order-success__title">Заказ оформлен</h2>
+			<p class="order-success__description">Списано 0 синапсов</p>
+			<button class="button order-success__close">За новыми покупками!</button>
+		</div>
+	</template>
+
+	<template id="card-catalog">
+		<button class="gallery__item card">
+			<span class="card__category card__category_soft">софт-скил</span>
+			<h2 class="card__title">+1 час в сутках</h2>
+			<img class="card__image" src="<%=require('../images/Subtract.svg')%>" alt="" />
+			<span class="card__price">750 синапсов</span>
+		</button>
+	</template>
+
+	<template id="card-preview">
+		<div class="card card_full">
+			<img class="card__image" src="<%=require('../images/Subtract.svg')%>" alt="" />
+			<div class="card__column">
+				<span class="card__category card__category_other">другое</span>
+				<h2 class="card__title">Бэкенд-антистресс</h2>
+				<p class="card__text">Если планируете решать задачи в тренажёре, берите два.</p>
+				<div class="card__row">
+					<button class="button card__button">В корзину</button>
+					<span class="card__price">1000 синапсов</span>
+				</div>
+			</div>
+		</div>
+	</template>
+
+	<template id="card-basket">
+		<li class="basket__item card card_compact">
+			<span class="basket__item-index">1</span>
+			<span class="card__title">Фреймворк куки судьбы</span>
+			<span class="card__price">2500 синапсов</span>
+			<button class="basket__item-delete card__button" aria-label="удалить"></button>
+		</li>
+	</template>
+
+	<template id="basket">
+		<div class="basket">
+			<h2 class="modal__title">Корзина</h2>
+			<ul class="basket__list">
+				
+			</ul>
+			<div class="modal__actions">
+				<button class="button basket__button">Оформить</button>
+				<span class="basket__price">0 синапсов</span>
+			</div>
+		</div>
+	</template>
+
+	<template id="order">
+		<form class="form" name="order">
+			<div class="order">
+				<div class="order__field">
+					<h2 class="modal__title">Способ оплаты</h2>
+					<div class="order__buttons">
+						<button name="card" type="button" class="button button_alt">Онлайн</button>
+						<button name="cash" type="button" class="button button_alt">При получении</button>
+					</div>
+				</div>
+				<label class="order__field">
+					<span class="form__label modal__title">Адрес доставки</span>
+					<input name="address" class="form__input" type="text" placeholder="Введите адрес" />
+				</label>
+			</div>
+			<div class="modal__actions">
+				<button type="submit" disabled class="button order__button">Далее</button>
+				<span class="form__errors"></span>
+			</div>
+		</form>
+	</template>
+
+	<template id="contacts">
+		<form class="form" name="contacts">
+			<div class="order">
+				<label class="order__field">
+					<span class="form__label modal__title">Email</span>
+					<input name="email" class="form__input" type="text" placeholder="Введите Email" />
+				</label>
+				<label class="order__field">
+					<span class="form__label modal__title">Телефон</span>
+					<input name="phone" class="form__input" type="text" placeholder="+7 (" />
+				</label>
+			</div>
+			<div class="modal__actions">
+				<button type="submit" disabled class="button">Оплатить</button>
+				<span class="form__errors"></span>
+			</div>
+		</form>
+	</template>
+</body>
+</html>
+===== ./src/public/.nojekyll =====
+===== ./src/public/browserconfig.xml =====
+<?xml version="1.0" encoding="utf-8"?>
+<browserconfig>
+    <msapplication>
+        <tile>
+            <square150x150logo src="/mstile-150x150.png"/>
+            <TileColor>#da532c</TileColor>
+        </tile>
+    </msapplication>
+</browserconfig>
+===== ./src/public/manifest.json =====
+{
+    "name": "",
+    "short_name": "",
+    "icons": [
+        {
+            "src": "/android-chrome-192x192.png",
+            "sizes": "192x192",
+            "type": "image/png"
+        },
+        {
+            "src": "/android-chrome-512x512.png",
+            "sizes": "512x512",
+            "type": "image/png"
+        }
+    ],
+    "theme_color": "#000000",
+    "background_color": "#000000",
+    "display": "standalone"
+}
+===== ./src/scss/mixins/_background.scss =====
+@mixin background($image, $size: 'cover') {
+	background: url($image) no-repeat center;
+	background-size: $size;
+}
+
+@mixin mask($image, $size: cover) {
+	mask-image: url($image);
+	mask-repeat: no-repeat;
+	mask-position: center;
+	mask-size: $size;
+}===== ./src/scss/mixins/_container.scss =====
+@use "variables" as *;
+
+@mixin container($top: $defaultPadding, $bottom: $defaultPadding) {
+  margin: auto;
+  width: 100%;
+  box-sizing: border-box;
+  max-width: $maxPageWidth;
+  padding: $top $defaultPadding $bottom;
+}
+
+@mixin sublayer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+@mixin flex($direction: column) {
+  display: flex;
+  flex-direction: $direction;
+}
+
+@mixin grid($min, $gap) {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax($min, 1fr));
+  grid-gap: $gap;
+}===== ./src/scss/mixins/_fix.scss =====
+
+@mixin clearfix {
+	content: "";
+	display: table;
+	clear: both;
+}
+
+@mixin va-fix($fix) {
+	position: relative;
+	top: $fix;
+}===== ./src/scss/mixins/_icon.scss =====
+@use "variables" as *;
+@use "interactive" as mixins;
+@use "../../vendor/glyphter";
+
+@mixin icon($size, $name) {
+    display: inline-block;
+    width: $size;
+    height: $size;
+    font-size: $size;
+    padding: 0;
+    @extend .icon;
+    @extend .icon-#{$name};
+}===== ./src/scss/mixins/_index.scss =====
+@forward "fix";
+@forward "background";
+@forward "container";
+@forward "interactive";
+@forward "icon";===== ./src/scss/mixins/_interactive.scss =====
+@use "variables" as *;
+@use "container" as mixins;
+
+@mixin button($color: $primary, $main: white, $hover: $secondary) {
+  padding: 1rem 2rem;
+  color: $color;
+  font-weight: 500;
+  background: $main;
+  border-radius: 0.8rem;
+  cursor: pointer;
+  transition: background-color .3s ease;
+
+  &:hover {
+    background: $hover;
+  }
+
+  &:disabled {
+    cursor: default;
+    opacity: 0.25;
+
+    &:hover {
+      background: $main;
+    }
+  }
+}
+
+@mixin link($main: white, $hover: $secondary) {
+  padding: 0;
+  color: $main;
+  background: transparent;
+  border: none;
+  border-radius: 0;
+  cursor: pointer;
+  transition: color .3s ease;
+
+  &:hover {
+    color: $hover;
+  }
+
+  &:disabled {
+    cursor: default;
+    opacity: 0.25;
+
+    &:hover {
+      color: $main;
+    }
+  }
+}
+
+@mixin selectable($selected, $size, $hover) {
+  cursor: pointer;
+  position: relative;
+  transition: background-color .3s ease;
+
+  &:hover {
+    //box-shadow: inset 0 0 0 $size $color;
+    background-color: $hover;
+  }
+
+  &:disabled {
+    opacity: 0.25;
+    cursor: default;
+  }
+
+  &:hover:disabled {
+    //box-shadow: inset 0 0 0 0 $color;
+    background-color: unset;
+  }
+}===== ./src/scss/styles.scss =====
+@use "../vendor/normalize";
+@use "../vendor/ys-text";
+@use "../vendor/garamond";
+@use "../vendor/glyphter";
+
+@use "../common.blocks/button";
+@use "../common.blocks/form";
+@use "../common.blocks/modal";
+
+@use "../common.blocks/page";
+@use "../common.blocks/header";
+
+@use "../common.blocks/gallery";
+@use "../common.blocks/card";
+@use "../common.blocks/basket";
+@use "../common.blocks/order";
+@use "../common.blocks/order-success";
+
+
+@use "variables" as *;
+@use "mixins";
+===== ./src/scss/_variables.scss =====
+$primary: #060C14;
+$secondary: white;
+$background: #0F2137;
+$primaryLight: #1E334F;
+$hover: #5F8CC7;
+$error: #F18B7E;
+
+$font: 'YS Text', Roboto, Helvetica, Arial, sans-serif;
+$titleFont: 'Garamond', sans-serif;
+$fontMono: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
+$baseFontSize: 20px;
+$baseFontColor: white;
+
+$category1: #83FA9D;
+$category2: #FAD883;
+$category3: #B783FA;
+$category4: #83DDFA;
+$category5: #FAA083;
+
+$mainFontSize: 1.5em;
+$titleFontSize: 2.5em;
+$headerElementsSize: 4.5rem;
+$headerHeight: 9rem;
+
+$maxPageWidth: 1320px;
+$defaultPadding: 2.4rem;
+
+$defaultBorderRadius: 3rem;
+$defaultBorder: 2px solid $primaryLight;
+$hoverBorder: 2px solid white;
+$overlayBackground: rgba(0, 0, 0, 0.8);
+===== ./src/types/index.ts =====
+export type ApiPostMethods = 'POST' | 'PUT' | 'DELETE';
+
+export interface IApi {
+    get<T extends object>(uri: string): Promise<T>;
+    post<T extends object>(uri: string, data: object, method?: ApiPostMethods): Promise<T>;
+}
+
+export interface IProduct {
+    id: string;
+    description: string;
+    image: string;
+    title: string;
+    category: string;
+    price: number | null;
+}
+
+export type TPayment = 'card' | 'cash';
+
+export interface IBuyer {
+    payment: TPayment | null;
+    email: string;
+    phone: string;
+    address: string;
+}
+
+export type ValidationErrors = Partial<Record<keyof IBuyer, string>>;
+
+export interface IOrderData extends Omit<IBuyer, 'payment'> {
+    payment: TPayment;
+    total: number;
+    items: string[];
+}
+
+export interface IOrderResult {
+    id: string;
+    total: number;
+}
+
+export interface IProductList {
+    total: number;
+    items: IProduct[];
+}===== ./src/utils/constants.ts =====
+export const API_URL = `${import.meta.env.VITE_API_ORIGIN}/api/weblarek`; 
+
+export const CDN_URL = `${import.meta.env.VITE_API_ORIGIN}/content/weblarek`;
+
+export const categoryMap = {
+  'софт-скил': 'card__category_soft',
+  'хард-скил': 'card__category_hard',
+  'кнопка': 'card__category_button',
+  'дополнительное': 'card__category_additional',
+  'другое': 'card__category_other',
+};
+
+export const settings = {
+
+};
+===== ./src/utils/data.ts =====
+export const apiProducts = {
+    "total": 10,
+    "items": [
+        {
+            "id": "854cef69-976d-4c2a-a18c-2aa45046c390",
+            "description": "Если планируете решать задачи в тренажёре, берите два.",
+            "image": "/5_Dots.svg",
+            "title": "+1 час в сутках",
+            "category": "софт-скил",
+            "price": 750
+        },
+        {
+            "id": "c101ab44-ed99-4a54-990d-47aa2bb4e7d9",
+            "description": "Лизните этот леденец, чтобы мгновенно запоминать и узнавать любой цветовой код CSS.",
+            "image": "/Shell.svg",
+            "title": "HEX-леденец",
+            "category": "другое",
+            "price": 1450
+        },
+        {
+            "id": "b06cde61-912f-4663-9751-09956c0eed67",
+            "description": "Будет стоять над душой и не давать прокрастинировать.",
+            "image": "/Asterisk_2.svg",
+            "title": "Мамка-таймер",
+            "category": "софт-скил",
+            "price": null
+        },
+        {
+            "id": "412bcf81-7e75-4e70-bdb9-d3c73c9803b7",
+            "description": "Откройте эти куки, чтобы узнать, какой фреймворк вы должны изучить дальше.",
+            "image": "/Soft_Flower.svg",
+            "title": "Фреймворк куки судьбы",
+            "category": "дополнительное",
+            "price": 2500
+        },
+    ]
+}===== ./src/utils/utils.ts =====
+export function pascalToKebab(value: string): string {
+    return value.replace(/([a-z0–9])([A-Z])/g, "$1-$2").toLowerCase();
+}
+
+export function isSelector(x: any): x is string {
+    return (typeof x === "string") && x.length > 1;
+}
+
+export function isEmpty(value: any): boolean {
+    return value === null || value === undefined;
+}
+
+export type SelectorCollection<T> = string | NodeListOf<Element> | T[];
+
+export function ensureAllElements<T extends HTMLElement>(selectorElement: SelectorCollection<T>, context: HTMLElement = document as unknown as HTMLElement): T[] {
+    if (isSelector(selectorElement)) {
+        return Array.from(context.querySelectorAll(selectorElement)) as T[];
+    }
+    if (selectorElement instanceof NodeList) {
+        return Array.from(selectorElement) as T[];
+    }
+    if (Array.isArray(selectorElement)) {
+        return selectorElement;
+    }
+    throw new Error(`Unknown selector element`);
+}
+
+export type SelectorElement<T> = T | string;
+
+export function ensureElement<T extends HTMLElement>(selectorElement: SelectorElement<T>, context?: HTMLElement): T {
+    if (isSelector(selectorElement)) {
+        const elements = ensureAllElements<T>(selectorElement, context);
+        if (elements.length > 1) {
+            console.warn(`selector ${selectorElement} return more then one element`);
+        }
+        if (elements.length === 0) {
+            throw new Error(`selector ${selectorElement} return nothing`);
+        }
+        return elements.pop() as T;
+    }
+    if (selectorElement instanceof HTMLElement) {
+        return selectorElement as T;
+    }
+    throw new Error('Unknown selector element');
+}
+
+export function cloneTemplate<T extends HTMLElement>(query: string | HTMLTemplateElement): T {
+    const template = ensureElement(query) as HTMLTemplateElement;
+    if (!template.content.firstElementChild) {
+        throw new Error(`Template ${query} has no content`);
+    }
+    return template.content.firstElementChild.cloneNode(true) as T;
+}
+
+export function bem(block: string, element?: string, modifier?: string): { name: string, class: string } {
+    let name = block;
+    if (element) name += `__${element}`;
+    if (modifier) name += `_${modifier}`;
+    return {
+        name,
+        class: `.${name}`
+    };
+}
+
+export function getObjectProperties(obj: object, filter?: (name: string, prop: PropertyDescriptor) => boolean): string[] {
+    return Object.entries(
+        Object.getOwnPropertyDescriptors(
+            Object.getPrototypeOf(obj)
+        )
+    )
+        .filter(([name, prop]: [string, PropertyDescriptor]) => filter ? filter(name, prop) : (name !== 'constructor'))
+        .map(([name,]) => name);
+}
+
+export function setElementData<T extends Record<string, unknown> | object>(el: HTMLElement, data: T) {
+    for (const key in data) {
+        el.dataset[key] = String(data[key]);
+    }
+}
+
+export function getElementData<T extends Record<string, unknown>>(el: HTMLElement, scheme: Record<string, Function>): T {
+    const data: Partial<T> = {};
+    for (const key in el.dataset) {
+        data[key as keyof T] = scheme[key](el.dataset[key]);
+    }
+    return data as T;
+}
+
+export function isPlainObject(obj: unknown): obj is object {
+    const prototype = Object.getPrototypeOf(obj);
+    return  prototype === Object.getPrototypeOf({}) ||
+        prototype === null;
+}
+
+export function isBoolean(v: unknown): v is boolean {
+    return typeof v === 'boolean';
+}
+
+export function createElement<
+    T extends HTMLElement
+    >(
+    tagName: keyof HTMLElementTagNameMap,
+    props?: Partial<Record<keyof T, string | boolean | object>>,
+    children?: HTMLElement | HTMLElement []
+): T {
+    const element = document.createElement(tagName) as T;
+    if (props) {
+        for (const key in props) {
+            const value = props[key];
+            if (isPlainObject(value) && key === 'dataset') {
+                setElementData(element, value);
+            } else {
+                (element as any)[key] = value;
+            }
+        }
+    }
+    if (children) {
+        for (const child of Array.isArray(children) ? children : [children]) {
+            element.append(child);
+        }
+    }
+    return element;
+}===== ./src/vendor/garamond/index.css =====
+@font-face {
+    font-family: "Garamond";
+    src: url("./EBGaramond-Regular.woff2") format("woff2"),
+         url("./EBGaramond-Regular.ttf") format("truetype");
+    font-weight: 600;
+    font-style: normal;
+}
+===== ./src/vendor/glyphter/index.css =====
+/* Generated by Glyphter (http://www.glyphter.com) on  Wed Jun 21 2023*/
+@font-face {
+    font-family: 'Glyphter';
+    src: url('./Glyphter.eot');
+    src: url('./Glyphter.eot?#iefix') format('embedded-opentype'),
+         url('./Glyphter.woff') format('woff'),
+         url('./Glyphter.ttf') format('truetype'),
+         url('./Glyphter.svg#Glyphter') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+.icon:before{
+	display: inline-block;
+   font-family: 'Glyphter';
+   font-style: normal;
+   font-weight: normal;
+   line-height: 1;
+   -webkit-font-smoothing: antialiased;
+   -moz-osx-font-smoothing: grayscale
+}
+
+.icon-back:before{content:'\0041';}
+.icon-basket:before{content:'\0042';}
+.icon-basket-2:before{content:'\0043';}
+.icon-chevron:before{content:'\0044';}
+.icon-close:before{content:'\0045';}
+.icon-square-check-regular:before{content:'\0046';}
+.icon-square-regular:before{content:'\0047';}
+.icon-star:before{content:'\0048';}
+.icon-trash:before{content:'\0049';}===== ./src/vendor/normalize.css =====
+/*! normalize.css v8.0.1 | MIT License | github.com/necolas/normalize.css */
+
+/* Document
+   ========================================================================== */
+
+/**
+ * 1. Correct the line height in all browsers.
+ * 2. Prevent adjustments of font size after orientation changes in iOS.
+ */
+
+html {
+  line-height: 1.15; /* 1 */
+  -webkit-text-size-adjust: 100%; /* 2 */
+}
+
+/* Sections
+   ========================================================================== */
+
+/**
+ * Remove the margin in all browsers.
+ */
+
+body {
+  margin: 0;
+}
+
+/**
+ * Render the `main` element consistently in IE.
+ */
+
+main {
+  display: block;
+}
+
+/**
+ * Correct the font size and margin on `h1` elements within `section` and
+ * `article` contexts in Chrome, Firefox, and Safari.
+ */
+
+h1 {
+  font-size: 2em;
+  margin: 0.67em 0;
+}
+
+/* Grouping content
+   ========================================================================== */
+
+/**
+ * 1. Add the correct box sizing in Firefox.
+ * 2. Show the overflow in Edge and IE.
+ */
+
+hr {
+  box-sizing: content-box; /* 1 */
+  height: 0; /* 1 */
+  overflow: visible; /* 2 */
+}
+
+/**
+ * 1. Correct the inheritance and scaling of font size in all browsers.
+ * 2. Correct the odd `em` font sizing in all browsers.
+ */
+
+pre {
+  font-family: monospace, monospace; /* 1 */
+  font-size: 1em; /* 2 */
+}
+
+/* Text-level semantics
+   ========================================================================== */
+
+/**
+ * Remove the gray background on active links in IE 10.
+ */
+
+a {
+  background-color: transparent;
+}
+
+/**
+ * 1. Remove the bottom border in Chrome 57-
+ * 2. Add the correct text decoration in Chrome, Edge, IE, Opera, and Safari.
+ */
+
+abbr[title] {
+  border-bottom: none; /* 1 */
+  text-decoration: underline; /* 2 */
+  text-decoration: underline dotted; /* 2 */
+}
+
+/**
+ * Add the correct font weight in Chrome, Edge, and Safari.
+ */
+
+b,
+strong {
+  font-weight: bolder;
+}
+
+/**
+ * 1. Correct the inheritance and scaling of font size in all browsers.
+ * 2. Correct the odd `em` font sizing in all browsers.
+ */
+
+code,
+kbd,
+samp {
+  font-family: monospace, monospace; /* 1 */
+  font-size: 1em; /* 2 */
+}
+
+/**
+ * Add the correct font size in all browsers.
+ */
+
+small {
+  font-size: 80%;
+}
+
+/**
+ * Prevent `sub` and `sup` elements from affecting the line height in
+ * all browsers.
+ */
+
+sub,
+sup {
+  font-size: 75%;
+  line-height: 0;
+  position: relative;
+  vertical-align: baseline;
+}
+
+sub {
+  bottom: -0.25em;
+}
+
+sup {
+  top: -0.5em;
+}
+
+/* Embedded content
+   ========================================================================== */
+
+/**
+ * Remove the border on images inside links in IE 10.
+ */
+
+img {
+  border-style: none;
+}
+
+/* Forms
+   ========================================================================== */
+
+/**
+ * 1. Change the font styles in all browsers.
+ * 2. Remove the margin in Firefox and Safari.
+ */
+
+button,
+input,
+optgroup,
+select,
+textarea {
+  font-family: inherit; /* 1 */
+  font-size: 100%; /* 1 */
+  line-height: 1.15; /* 1 */
+  margin: 0; /* 2 */
+}
+
+/**
+ * Show the overflow in IE.
+ * 1. Show the overflow in Edge.
+ */
+
+button,
+input { /* 1 */
+  overflow: visible;
+}
+
+/**
+ * Remove the inheritance of text transform in Edge, Firefox, and IE.
+ * 1. Remove the inheritance of text transform in Firefox.
+ */
+
+button,
+select { /* 1 */
+  text-transform: none;
+}
+
+/**
+ * Correct the inability to style clickable types in iOS and Safari.
+ */
+
+button,
+[type="button"],
+[type="reset"],
+[type="submit"] {
+  -webkit-appearance: button;
+}
+
+/**
+ * Remove the inner border and padding in Firefox.
+ */
+
+button::-moz-focus-inner,
+[type="button"]::-moz-focus-inner,
+[type="reset"]::-moz-focus-inner,
+[type="submit"]::-moz-focus-inner {
+  border-style: none;
+  padding: 0;
+}
+
+/**
+ * Restore the focus styles unset by the previous rule.
+ */
+
+button:-moz-focusring,
+[type="button"]:-moz-focusring,
+[type="reset"]:-moz-focusring,
+[type="submit"]:-moz-focusring {
+  outline: 1px dotted ButtonText;
+}
+
+/**
+ * Correct the padding in Firefox.
+ */
+
+fieldset {
+  padding: 0.35em 0.75em 0.625em;
+}
+
+/**
+ * 1. Correct the text wrapping in Edge and IE.
+ * 2. Correct the color inheritance from `fieldset` elements in IE.
+ * 3. Remove the padding so developers are not caught out when they zero out
+ *    `fieldset` elements in all browsers.
+ */
+
+legend {
+  box-sizing: border-box; /* 1 */
+  color: inherit; /* 2 */
+  display: table; /* 1 */
+  max-width: 100%; /* 1 */
+  padding: 0; /* 3 */
+  white-space: normal; /* 1 */
+}
+
+/**
+ * Add the correct vertical alignment in Chrome, Firefox, and Opera.
+ */
+
+progress {
+  vertical-align: baseline;
+}
+
+/**
+ * Remove the default vertical scrollbar in IE 10+.
+ */
+
+textarea {
+  overflow: auto;
+}
+
+/**
+ * 1. Add the correct box sizing in IE 10.
+ * 2. Remove the padding in IE 10.
+ */
+
+[type="checkbox"],
+[type="radio"] {
+  box-sizing: border-box; /* 1 */
+  padding: 0; /* 2 */
+}
+
+/**
+ * Correct the cursor style of increment and decrement buttons in Chrome.
+ */
+
+[type="number"]::-webkit-inner-spin-button,
+[type="number"]::-webkit-outer-spin-button {
+  height: auto;
+}
+
+/**
+ * 1. Correct the odd appearance in Chrome and Safari.
+ * 2. Correct the outline style in Safari.
+ */
+
+[type="search"] {
+  -webkit-appearance: textfield; /* 1 */
+  outline-offset: -2px; /* 2 */
+}
+
+/**
+ * Remove the inner padding in Chrome and Safari on macOS.
+ */
+
+[type="search"]::-webkit-search-decoration {
+  -webkit-appearance: none;
+}
+
+/**
+ * 1. Correct the inability to style clickable types in iOS and Safari.
+ * 2. Change font properties to `inherit` in Safari.
+ */
+
+::-webkit-file-upload-button {
+  -webkit-appearance: button; /* 1 */
+  font: inherit; /* 2 */
+}
+
+/* Interactive
+   ========================================================================== */
+
+/*
+ * Add the correct display in Edge, IE 10+, and Firefox.
+ */
+
+details {
+  display: block;
+}
+
+/*
+ * Add the correct display in all browsers.
+ */
+
+summary {
+  display: list-item;
+}
+
+/* Misc
+   ========================================================================== */
+
+/**
+ * Add the correct display in IE 10+.
+ */
+
+template {
+  display: none;
+}
+
+/**
+ * Add the correct display in IE 10.
+ */
+
+[hidden] {
+  display: none;
+}
+===== ./src/vendor/ys-text/index.css =====
+/*
+	This font software is the property of Commercial Type.
+
+	You may not modify the font software, use it on another website, or install it on a computer.
+
+	License information is available at http://commercialtype.com/eula
+	For more information please visit Commercial Type at http://commercialtype.com or email us at info[at]commercialtype.com
+
+	Copyright (C) 2016 Schwartzco Inc.
+	
+	*/
+
+
+	.YSDisplay-Thin {
+		font-family: "YS Display";
+		font-weight: 100;
+		font-style: normal;
+		font-stretch: normal;
+	}
+
+	.YSDisplay-Light {
+		font-family: "YS Display";
+		font-weight: 300;
+		font-style: normal;
+		font-stretch: normal;
+	}
+
+	.YSDisplay-Regular {
+		font-family: "YS Display";
+		font-weight: 400;
+		font-style: normal;
+		font-stretch: normal;
+	}
+
+	.YSDisplay-Medium {
+		font-family: "YS Display";
+		font-weight: 500;
+		font-style: normal;
+		font-stretch: normal;
+	}
+
+	.YSDisplay-Bold {
+		font-family: "YS Display";
+		font-weight: 700;
+		font-style: normal;
+		font-stretch: normal;
+	}
+
+	.YSDisplay-Heavy {
+		font-family: "YS Display";
+		font-weight: 900;
+		font-style: normal;
+		font-stretch: normal;
+	}
+
+	.YSText-Light {
+		font-family: "YS Text";
+		font-weight: 300;
+		font-style: normal;
+		font-stretch: normal;
+	}
+
+	.YSText-LightItalic {
+		font-family: "YS Text";
+		font-weight: 300;
+		font-style: italic;
+		font-stretch: normal;
+	}
+
+	.YSText-Regular {
+		font-family: "YS Text";
+		font-weight: 400;
+		font-style: normal;
+		font-stretch: normal;
+	}
+
+	.YSText-RegularItalic {
+		font-family: "YS Text";
+		font-weight: 400;
+		font-style: italic;
+		font-stretch: normal;
+	}
+
+	.YSText-Medium {
+		font-family: "YS Text";
+		font-weight: 500;
+		font-style: normal;
+		font-stretch: normal;
+	}
+
+	.YSText-MediumItalic {
+		font-family: "YS Text";
+		font-weight: 500;
+		font-style: italic;
+		font-stretch: normal;
+	}
+
+	.YSText-Bold {
+		font-family: "YS Text";
+		font-weight: 700;
+		font-style: normal;
+		font-stretch: normal;
+	}
+
+	.YSText-BoldItalic {
+		font-family: "YS Text";
+		font-weight: 700;
+		font-style: italic;
+		font-stretch: normal;
+	}
+
+	@font-face {
+		font-family: "YS Display";
+		src: url("./YS Display-Thin.eot");
+		src: url("./YS Display-Thin.eot?#iefix") format("embedded-opentype"),
+		url("./YS Display-Thin.woff2") format("woff2"),
+		url("./YS Display-Thin.woff") format("woff"),
+		url("./YS Display-Thin.ttf") format("truetype"),
+		url("./YS Display-Thin.svg#YSDisplay-Thin") format("svg");
+		font-weight: 100;
+		font-style: normal;
+	}
+
+	@font-face {
+		font-family: "YS Display";
+		src: url("./YS Display-Light.eot");
+		src: url("./YS Display-Light.eot?#iefix") format("embedded-opentype"),
+		url("./YS Display-Light.woff2") format("woff2"),
+		url("./YS Display-Light.woff") format("woff"),
+		url("./YS Display-Light.ttf") format("truetype"),
+		url("./YS Display-Light.svg#YSDisplay-Light") format("svg");
+		font-weight: 300;
+		font-style: normal;
+	}
+
+	@font-face {
+		font-family: "YS Display";
+		src: url("./YS Display-Regular.eot");
+		src: url("./YS Display-Regular.eot?#iefix") format("embedded-opentype"),
+		url("./YS Display-Regular.woff2") format("woff2"),
+		url("./YS Display-Regular.woff") format("woff"),
+		url("./YS Display-Regular.ttf") format("truetype"),
+		url("./YS Display-Regular.svg#YSDisplay-Regular") format("svg");
+		font-weight: 400;
+		font-style: normal;
+	}
+
+	@font-face {
+		font-family: "YS Display";
+		src: url("./YS Display-Medium.eot");
+		src: url("./YS Display-Medium.eot?#iefix") format("embedded-opentype"),
+		url("./YS Display-Medium.woff2") format("woff2"),
+		url("./YS Display-Medium.woff") format("woff"),
+		url("./YS Display-Medium.ttf") format("truetype"),
+		url("./YS Display-Medium.svg#YSDisplay-Medium") format("svg");
+		font-weight: 500;
+		font-style: normal;
+	}
+
+	@font-face {
+		font-family: "YS Display";
+		src: url("./YS Display-Bold.eot");
+		src: url("./YS Display-Bold.eot?#iefix") format("embedded-opentype"),
+		url("./YS Display-Bold.woff2") format("woff2"),
+		url("./YS Display-Bold.woff") format("woff"),
+		url("./YS Display-Bold.ttf") format("truetype"),
+		url("./YS Display-Bold.svg#YSDisplay-Bold") format("svg");
+		font-weight: 700;
+		font-style: normal;
+	}
+
+	@font-face {
+		font-family: "YS Display";
+		src: url("./YS Display-Heavy.eot");
+		src: url("./YS Display-Heavy.eot?#iefix") format("embedded-opentype"),
+		url("./YS Display-Heavy.woff2") format("woff2"),
+		url("./YS Display-Heavy.woff") format("woff"),
+		url("./YS Display-Heavy.ttf") format("truetype"),
+		url("./YS Display-Heavy.svg#YSDisplay-Heavy") format("svg");
+		font-weight: 900;
+		font-style: normal;
+	}
+
+	@font-face {
+		font-family: "YS Text";
+		src: url("./YS Text-Light.eot");
+		src: url("./YS Text-Light.eot?#iefix") format("embedded-opentype"),
+		url("./YS Text-Light.woff2") format("woff2"),
+		url("./YS Text-Light.woff") format("woff"),
+		url("./YS Text-Light.ttf") format("truetype"),
+		url("./YS Text-Light.svg#YSText-Light") format("svg");
+		font-weight: 300;
+		font-style: normal;
+	}
+
+	@font-face {
+		font-family: "YS Text";
+		src: url("./YS Text-Light Italic.eot");
+		src: url("./YS Text-Light Italic.eot?#iefix") format("embedded-opentype"),
+		url("./YS Text-Light Italic.woff2") format("woff2"),
+		url("./YS Text-Light Italic.woff") format("woff"),
+		url("./YS Text-Light Italic.ttf") format("truetype"),
+		url("./YS Text-Light Italic.svg#YSText-LightItalic") format("svg");
+		font-weight: 300;
+		font-style: italic;
+	}
+
+	@font-face {
+		font-family: "YS Text";
+		src: url("YS Text-Regular.woff2") format("woff2");
+		src: url("./YS Text-Regular.eot");
+		src: url("./YS Text-Regular.eot?#iefix") format("embedded-opentype"),
+		url("./YS Text-Regular.woff2") format("woff2"),
+		url("./YS Text-Regular.woff") format("woff"),
+		url("./YS Text-Regular.ttf") format("truetype"),
+		url("./YS Text-Regular.svg#YSText-Regular") format("svg");
+		font-weight: 400;
+		font-style: normal;
+	}
+
+	@font-face {
+		font-family: "YS Text";
+		src: url("./YS Text-Regular Italic.eot");
+		src: url("./YS Text-Regular Italic.eot?#iefix") format("embedded-opentype"),
+		url("./YS Text-Regular Italic.woff2") format("woff2"),
+		url("./YS Text-Regular Italic.woff") format("woff"),
+		url("./YS Text-Regular Italic.ttf") format("truetype"),
+		url("./YS Text-Regular Italic.svg#YSText-RegularItalic") format("svg");
+		font-weight: 400;
+		font-style: italic;
+	}
+
+	@font-face {
+		font-family: "YS Text";
+		src: url("./YS Text-Medium.eot");
+		src: url("./YS Text-Medium.eot?#iefix") format("embedded-opentype"),
+		url("./YS Text-Medium.woff2") format("woff2"),
+		url("./YS Text-Medium.woff") format("woff"),
+		url("./YS Text-Medium.ttf") format("truetype"),
+		url("./YS Text-Medium.svg#YSText-Medium") format("svg");
+		font-weight: 500;
+		font-style: normal;
+	}
+
+	@font-face {
+		font-family: "YS Text";
+		src: url("./YS Text-Medium Italic.eot");
+		src: url("./YS Text-Medium Italic.eot?#iefix") format("embedded-opentype"),
+		url("./YS Text-Medium Italic.woff2") format("woff2"),
+		url("./YS Text-Medium Italic.woff") format("woff"),
+		url("./YS Text-Medium Italic.ttf") format("truetype"),
+		url("./YS Text-Medium Italic.svg#YSText-MediumItalic") format("svg");
+		font-weight: 500;
+		font-style: italic;
+	}
+
+	@font-face {
+		font-family: "YS Text";
+		src: url("./YS Text-Bold.eot");
+		src: url("./YS Text-Bold.eot?#iefix") format("embedded-opentype"),
+		url("./YS Text-Bold.woff2") format("woff2"),
+		url("./YS Text-Bold.woff") format("woff"),
+		url("./YS Text-Bold.ttf") format("truetype"),
+		url("./YS Text-Bold.svg#YSText-Bold") format("svg");
+		font-weight: 700;
+		font-style: normal;
+	}
+
+	@font-face {
+		font-family: "YS Text";
+		src: url("./YS Text-Bold Italic.eot");
+		src: url("./YS Text-Bold Italic.eot?#iefix") format("embedded-opentype"),
+		url("./YS Text-Bold Italic.woff2") format("woff2"),
+		url("./YS Text-Bold Italic.woff") format("woff"),
+		url("./YS Text-Bold Italic.ttf") format("truetype"),
+		url("./YS Text-Bold Italic.svg#YSText-BoldItalic") format("svg");
+		font-weight: 700;
+		font-style: italic;
+	}
+===== ./src/vite-env.d.ts =====
+/// <reference types="vite/client" />
+
+declare module '*.scss' {
+    const content: Record<string, string>;
+    export default content;
+}
+
+interface ImportMetaEnv {
+    readonly VITE_API_ORIGIN: string
+}
+
+interface ImportMeta {
+    readonly env: ImportMetaEnv
+}===== ./tsconfig.json =====
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "useDefineForClassFields": true,
+    "module": "ESNext",
+    "lib": ["ES2022", "DOM", "DOM.Iterable"],
+    "skipLibCheck": true,
+
+    /* Bundler mode */
+    "moduleResolution": "bundler",
+    "allowImportingTsExtensions": true,
+    "verbatimModuleSyntax": false,
+    "moduleDetection": "force",
+    "noEmit": true,
+
+    /* Linting */
+    "strict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "erasableSyntaxOnly": false,
+    "noFallthroughCasesInSwitch": true,
+    "noUncheckedSideEffectImports": true,
+
+  },
+  "include": ["src"]
+}
+===== ./vite.config.ts =====
+import { defineConfig } from 'vite'
+
+export default defineConfig({
+  css: {
+    preprocessorOptions: {
+      scss: {
+        loadPaths: [
+          './src/scss'
+        ],
+      },
+    },
+  },
+})
